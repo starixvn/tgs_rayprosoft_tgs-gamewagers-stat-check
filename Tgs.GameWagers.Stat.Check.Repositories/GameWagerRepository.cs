@@ -46,7 +46,7 @@ internal class GameWagerRepository(
 	        x.created_on >= @createdStartOn
 	        and x.created_on < @createdEndOn
 	        and x.closed_on >= @startOn
-	        and x.closed_on< @endOn
+	        and x.closed_on < @endOn
 	        and x.player_code = @playerCode
         group by
 	        reseller_id ,

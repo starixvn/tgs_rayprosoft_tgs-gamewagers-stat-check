@@ -11,6 +11,7 @@ ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["nuget.config", "."]
 COPY ["Tgs.GameWagers.Stat.Check/Tgs.GameWagers.Stat.Check.csproj", "Tgs.GameWagers.Stat.Check/"]
+COPY ["Tgs.GameWagers.Stat.Check.Common/Tgs.GameWagers.Stat.Check.Common.csproj", "Tgs.GameWagers.Stat.Check.Common/"]
 COPY ["Tgs.GameWagers.Stat.Check.Core/Tgs.GameWagers.Stat.Check.Core.csproj", "Tgs.GameWagers.Stat.Check.Core/"]
 COPY ["Tgs.GameWagers.Stat.Check.Repositories/Tgs.GameWagers.Stat.Check.Repositories.csproj", "Tgs.GameWagers.Stat.Check.Repositories/"]
 RUN dotnet restore "./Tgs.GameWagers.Stat.Check/./Tgs.GameWagers.Stat.Check.csproj"

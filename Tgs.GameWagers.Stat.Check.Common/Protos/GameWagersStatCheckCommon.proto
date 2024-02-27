@@ -1,0 +1,25 @@
+﻿syntax = "proto3";
+
+//import "phoenix/protobuf/guid.proto";
+//import "phoenix/protobuf/decimal.proto";
+import "google/protobuf/timestamp.proto";
+
+option csharp_namespace = "Tgs.GameWagers.Stat.Check.Common.Protos";
+
+package GameWagersStatCheckCommon;
+
+// The greeting service definition.
+
+
+// The request message containing the user's name.
+message GameWagersStatCheckTriggerMessage {
+    // 觸發時間
+    google.protobuf.Timestamp trigger_at = 1;
+}
+
+message GameWagersStatCheckCheckPlayerMessage{
+    string player_code = 1;
+    google.protobuf.Timestamp stat_at = 2;
+    google.protobuf.Timestamp start_at = 3;
+    google.protobuf.Timestamp end_at = 4;
+}

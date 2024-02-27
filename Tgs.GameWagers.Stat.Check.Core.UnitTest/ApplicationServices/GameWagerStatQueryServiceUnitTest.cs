@@ -21,7 +21,7 @@ public class GameWagerStatQueryServiceUnitTest
             new DateTimeOffset(2024, 02, 27, 13, 00, 15, 00, TimeSpan.FromHours(8)),
             new DateTimeOffset(2024, 02, 27, 13, 00, 20, 00, TimeSpan.FromHours(8)));
 
-        _ = fakeStatisticalTimeUtnsil.GetInterval(
+        _ = fakeStatisticalTimeUtnsil.GetStatInterval(
             Arg.Is(query.StartOn),
             Arg.Is(query.EndOn))
             .Returns((StartOn, EndOn));

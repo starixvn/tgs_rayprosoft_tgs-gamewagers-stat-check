@@ -7,5 +7,6 @@ using System.Threading.Tasks;
 namespace Tgs.GameWagers.Stat.Check.Core;
 public interface IStatisticalTimeUtnsil
 {
-	(DateTimeOffset StartOn, DateTimeOffset EndOn) GetInterval(DateTimeOffset startOn, DateTimeOffset endOn);
+	DateTimeOffset GetStatOn(DateTimeOffset source);
+	(DateTimeOffset StartOn, DateTimeOffset EndOn) GetStatInterval(DateTimeOffset startOn, DateTimeOffset endOn);
 }

@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgs.GameWagers.Stat.Check.C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgs.GameWagers.Stat.Check.Repositories", "Tgs.GameWagers.Stat.Check.Repositories\Tgs.GameWagers.Stat.Check.Repositories.csproj", "{A7117E72-F353-4AE1-859E-B75819277B42}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tgs.GameWagers.Stat.Check.Core.UnitTest", "Tgs.GameWagers.Stat.Check.Core.UnitTest\Tgs.GameWagers.Stat.Check.Core.UnitTest.csproj", "{62C13DA3-E8DE-4F4E-888E-5B2F6C3F5CE3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgs.GameWagers.Stat.Check.Core.UnitTest", "Tgs.GameWagers.Stat.Check.Core.UnitTest\Tgs.GameWagers.Stat.Check.Core.UnitTest.csproj", "{62C13DA3-E8DE-4F4E-888E-5B2F6C3F5CE3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tgs.GameWagers.Stat.Check.Common", "Tgs.GameWagers.Stat.Check.Common\Tgs.GameWagers.Stat.Check.Common.csproj", "{AC2D3AD0-C625-4ED0-82D5-C13C51B9D964}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{62C13DA3-E8DE-4F4E-888E-5B2F6C3F5CE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{62C13DA3-E8DE-4F4E-888E-5B2F6C3F5CE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{62C13DA3-E8DE-4F4E-888E-5B2F6C3F5CE3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC2D3AD0-C625-4ED0-82D5-C13C51B9D964}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC2D3AD0-C625-4ED0-82D5-C13C51B9D964}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC2D3AD0-C625-4ED0-82D5-C13C51B9D964}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC2D3AD0-C625-4ED0-82D5-C13C51B9D964}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -3,6 +3,7 @@ using Dapper;
 
 using Dapper.ColumnMapper;
 using Microsoft.EntityFrameworkCore;
+using MongoDB.Driver;
 using Npgsql;
 using Tgs.GameWagers.Stat.Check.Core;
 using Tgs.GameWagers.Stat.Check.Core.Models;
@@ -15,7 +16,8 @@ public static class ServiceCollectionExtensions
 {
 	public static IServiceCollection AddGameWagersStatCheckRepositories(
 		this IServiceCollection services,
-		Action<IServiceProvider, DbContextOptionsBuilder> dbContextOptions)
+		Action<IServiceProvider, DbContextOptionsBuilder> dbContextOptions,
+		Func<IServiceProvider, IMongoDatabase> mongoDatabaseResolver)
 	{
 		_ = services
 			.AddDbContext<TgsContext>(dbContextOptions)
@@ -25,7 +27,8 @@ public static class ServiceCollectionExtensions
 				return (NpgsqlConnection)context.Database.GetDbConnection();
 			})
 			.AddTransient<IGameWagerRepository, GameWagerRepository>()
-			.AddTransient<IGameWagerStatCloseRepository, GameWagerStatCloseRepository>();
+			.AddTransient<IGameWagerStatCloseRepository, GameWagerStatCloseRepository>()
+			.AddTransient<IGameWagerStatBacklogRepository>((sp) => ActivatorUtilities.CreateInstance<GameWagerStatBacklogRepository>(sp, mongoDatabaseResolver(sp)));
 
 		SqlMapper.SetTypeMap(typeof(GameWagerStatInfo), new ColumnTypeMapper(typeof(GameWagerStatInfo)));
 		return services;

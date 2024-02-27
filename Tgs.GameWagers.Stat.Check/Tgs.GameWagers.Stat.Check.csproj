@@ -27,6 +27,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\Tgs.GameWagers.Stat.Check.Common\Tgs.GameWagers.Stat.Check.Common.csproj" />
 		<ProjectReference Include="..\Tgs.GameWagers.Stat.Check.Core\Tgs.GameWagers.Stat.Check.Core.csproj" />
 		<ProjectReference Include="..\Tgs.GameWagers.Stat.Check.Repositories\Tgs.GameWagers.Stat.Check.Repositories.csproj" />
 	</ItemGroup>

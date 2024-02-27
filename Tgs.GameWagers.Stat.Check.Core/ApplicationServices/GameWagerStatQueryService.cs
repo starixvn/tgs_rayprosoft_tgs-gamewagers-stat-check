@@ -9,7 +9,7 @@ internal class GameWagerStatQueryService(
 {
 	public async IAsyncEnumerable<GameWagerStatResult> QueryAsync(GameWagerStatQuery query, [EnumeratorCancellation] CancellationToken cancellationToken = default)
 	{
-		(DateTimeOffset StartOn, DateTimeOffset EndOn) = statisticalTimeUtnsil.GetInterval(query.StartOn, query.EndOn);
+		(DateTimeOffset StartOn, DateTimeOffset EndOn) = statisticalTimeUtnsil.GetStatInterval(query.StartOn, query.EndOn);
 		var infos = await repository.QueryAsync(
 			playerCode: query.PlayerCode,
 			startOn: StartOn,
