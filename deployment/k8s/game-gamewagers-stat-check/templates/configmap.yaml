@@ -8,8 +8,7 @@ data:
     {
       "Logging": {
         "LogLevel": {
-          "Default": "Warning",
-          "Tgs.GameWagers.Stat.Check.Messages": "Information"
+          "Default": "Warning"
         }
       }
     }

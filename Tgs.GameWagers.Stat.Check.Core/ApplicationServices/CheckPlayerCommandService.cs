@@ -12,7 +12,7 @@ internal class CheckPlayerCommandService(
 {
 	public async ValueTask ExecuteAsync(CheckPlayerCommand command, CancellationToken cancellationToken = default)
 	{
-		var infos = await gameWagerRepository.QueryAsync(
+		var gameWagerStatInfos = await gameWagerRepository.QueryAsync(
 			command.PlayerCode,
 			command.StartAt,
 			command.EndAt,
@@ -22,7 +22,7 @@ internal class CheckPlayerCommandService(
 			.ConfigureAwait(false)
 			?? Enumerable.Empty<GameWagerStatInfo>();
 
-		foreach (var info in infos)
+		foreach (var info in gameWagerStatInfos)
 		{
 			var gameWagerStatCloseInfo = await gameWagerStatCloseRepository.GetAsync(
 				playerCode: info.PlayerCode,
@@ -67,8 +67,8 @@ internal class CheckPlayerCommandService(
 				{
 					logger.LogWarning("LogOn:{logOn} Mesaage:This updates game wager stat close information. Old Info:{old}  Update Info:{update}",
 						DateTime.Now.ToString("o"),
-						JsonSerializer.Serialize(info),
-						JsonSerializer.Serialize(gameWagerStatCloseInfo));
+						JsonSerializer.Serialize(gameWagerStatCloseInfo),
+						JsonSerializer.Serialize(info));
 
 					await gameWagerStatCloseRepository.UpdateAsync(
 						playerCode: info.PlayerCode,
