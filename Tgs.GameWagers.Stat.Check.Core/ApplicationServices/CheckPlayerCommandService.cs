@@ -88,12 +88,11 @@ internal class CheckPlayerCommandService(
 			}
 		}
 
-		await gameWagerStatBacklogRepository.UpdateExpireOnAsync(
+		await gameWagerStatBacklogRepository.UpdateExpireAtAsync(
 			command.PlayerCode,
 			command.StatAt,
 			command.StartAt,
 			command.EndAt,
-			command.TriggerAt.AddMinutes(10),
 			cancellationToken: cancellationToken)
 			.ConfigureAwait(false);
 	}

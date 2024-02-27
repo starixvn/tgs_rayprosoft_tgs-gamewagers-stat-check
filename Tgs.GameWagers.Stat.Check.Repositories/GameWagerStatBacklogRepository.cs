@@ -1,5 +1,4 @@
 ﻿using System.Runtime.CompilerServices;
-using Grpc.Core;
 using Microsoft.Extensions.Logging;
 using MongoDB.Bson;
 using MongoDB.Driver;
@@ -10,6 +9,7 @@ using Tgs.GameWagers.Stat.Check.Core.Models;
 using Tgs.GameWagers.Stat.Check.Repositories.Models;
 
 namespace Tgs.GameWagers.Stat.Check.Repositories;
+
 internal class GameWagerStatBacklogRepository(
 	ILogger<GameWagerStatBacklogRepository> logger,
 	IMongoDatabase mongoDatabase) : IGameWagerStatBacklogRepository
@@ -57,6 +57,7 @@ internal class GameWagerStatBacklogRepository(
 				cancellationToken: cancellationToken))
 			.ConfigureAwait(false);
 	}
+
 	public async IAsyncEnumerable<GameWagerStatBacklogInfo> QueryAsync(DateTimeOffset endOn, int offset = 0, int limit = 20, [EnumeratorCancellation] CancellationToken cancellationToken = default)
 	{
 		var collection = await GetCollectionAsync(cancellationToken).ConfigureAwait(false);
@@ -97,7 +98,8 @@ internal class GameWagerStatBacklogRepository(
 			}
 		}
 	}
-	public async ValueTask UpdateExpireOnAsync(string playerCode, DateTimeOffset statAt, DateTimeOffset startAt, DateTimeOffset endAt, DateTimeOffset triggerAt, CancellationToken cancellationToken = default)
+
+	public async ValueTask UpdateExpireAtAsync(string playerCode, DateTimeOffset statAt, DateTimeOffset startAt, DateTimeOffset endAt, CancellationToken cancellationToken = default)
 	{
 		var collection = await GetCollectionAsync(cancellationToken).ConfigureAwait(false);
 
@@ -111,7 +113,6 @@ internal class GameWagerStatBacklogRepository(
 			.Set(s => s.StatAt, statAt.UtcDateTime)
 			.Set(s => s.StartAt, startAt.UtcDateTime)
 			.Set(s => s.EndAt, endAt.UtcDateTime)
-			.Set(s => s.TriggerAt, triggerAt.UtcDateTime)
 			.Set(s => s.ExpireAt, DateTime.UtcNow.AddSeconds(1))
 			.Inc(s => s.Count, 1);
 
@@ -141,8 +142,52 @@ internal class GameWagerStatBacklogRepository(
 			.ConfigureAwait(false);
 	}
 
+	public async ValueTask UpdateTriggerAtAsync(string playerCode, DateTimeOffset statAt, DateTimeOffset startAt, DateTimeOffset endAt, DateTimeOffset triggerAt, CancellationToken cancellationToken = default)
+	{
+		var collection = await GetCollectionAsync(cancellationToken).ConfigureAwait(false);
+
+		var filter = Builders<GameWagerStatBacklog>.Filter.Eq(x => x.PlayerCode, playerCode)
+			& Builders<GameWagerStatBacklog>.Filter.Eq(x => x.StatAt, statAt.UtcDateTime)
+			& Builders<GameWagerStatBacklog>.Filter.Eq(x => x.StartAt, startAt.UtcDateTime)
+			& Builders<GameWagerStatBacklog>.Filter.Eq(x => x.EndAt, endAt.UtcDateTime);
+
+		var update = Builders<GameWagerStatBacklog>.Update
+			.Set(s => s.PlayerCode, playerCode)
+			.Set(s => s.StatAt, statAt.UtcDateTime)
+			.Set(s => s.StartAt, startAt.UtcDateTime)
+			.Set(s => s.EndAt, endAt.UtcDateTime)
+			.Set(s => s.TriggerAt, triggerAt.UtcDateTime)
+			.Set(s => s.ExpireAt, DateTime.UtcNow.AddDays(1))
+			.Inc(s => s.Count, 1);
+
+		var options = new UpdateOptions
+		{
+			IsUpsert = true
+		};
+
+		var retryPolicy = Policy
+		   .Handle<MongoBulkWriteException>()
+		   .WaitAndRetryAsync(
+			retryCount: 3,
+			retryAttempt => TimeSpan.FromSeconds(5),
+			(result, retryTime, context) => logger.LogWarning("LogOn:{logOn}  PlayerCode:{playerCode} TriggerAt:{statAt} Result:{result} Delay:{retryTime}",
+				DateTime.Now.ToString("o"),
+				playerCode,
+				statAt,
+				result,
+				retryTime));
+
+		_ = await retryPolicy.ExecuteAsync(
+			() => collection.UpdateOneAsync(
+				filter: filter,
+				update: update,
+				options: options,
+				cancellationToken: cancellationToken))
+			.ConfigureAwait(false);
+	}
+
 	private static Task PlayerVipLevelBacklog_IndexAsync(
-		IMongoCollection<GameWagerStatBacklog> collection,
+			IMongoCollection<GameWagerStatBacklog> collection,
 		CancellationToken cancellationToken = default)
 	{
 		var index = Builders<GameWagerStatBacklog>.IndexKeys

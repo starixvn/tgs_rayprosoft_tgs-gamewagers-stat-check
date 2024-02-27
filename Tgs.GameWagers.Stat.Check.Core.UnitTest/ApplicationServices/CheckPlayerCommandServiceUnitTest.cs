@@ -109,12 +109,11 @@ public class CheckPlayerCommandServiceUnitTest
 
 		_ = fakeGameWagerStatBacklogRepository
 			.Received(1)
-			.UpdateExpireOnAsync(
+			.UpdateExpireAtAsync(
 			playerCode: Arg.Is(command.PlayerCode),
 			statAt: Arg.Is(command.StatAt),
 			startAt: Arg.Is(command.StartAt),
 			endAt: Arg.Is(command.EndAt),
-			triggerAt: Arg.Is(command.TriggerAt.AddMinutes(10)),
 			cancellationToken: Arg.Any<CancellationToken>());
 	}
 
@@ -228,12 +227,11 @@ public class CheckPlayerCommandServiceUnitTest
 
 		_ = fakeGameWagerStatBacklogRepository
 			.Received(1)
-			.UpdateExpireOnAsync(
+			.UpdateExpireAtAsync(
 			playerCode: Arg.Is(command.PlayerCode),
 			statAt: Arg.Is(command.StatAt),
 			startAt: Arg.Is(command.StartAt),
 			endAt: Arg.Is(command.EndAt),
-			triggerAt: Arg.Is(command.TriggerAt.AddMinutes(10)),
 			cancellationToken: Arg.Any<CancellationToken>());
 	}
 
@@ -347,12 +345,11 @@ public class CheckPlayerCommandServiceUnitTest
 
 		_ = fakeGameWagerStatBacklogRepository
 			.Received(1)
-			.UpdateExpireOnAsync(
+			.UpdateExpireAtAsync(
 			playerCode: Arg.Is(command.PlayerCode),
 			statAt: Arg.Is(command.StatAt),
 			startAt: Arg.Is(command.StartAt),
 			endAt: Arg.Is(command.EndAt),
-			triggerAt: Arg.Is(command.TriggerAt.AddMinutes(10)),
 			cancellationToken: Arg.Any<CancellationToken>());
 	}
 }

@@ -1,4 +1,5 @@
-﻿using Google.Protobuf.WellKnownTypes;
+﻿using System.Threading;
+using Google.Protobuf.WellKnownTypes;
 using Microsoft.Extensions.Logging.Abstractions;
 using NSubstitute;
 using Tgs.GameWagers.Stat.Check.Common.Protos;
@@ -55,5 +56,16 @@ public class TriggerCommandServiceUnitTest
 
 			}),
 			cancellationToken: Arg.Any<CancellationToken>());
+
+		_ = fakeGameWagerRepository
+			.Received(1)
+			.UpdateTriggerAtAsync(
+			Arg.Is(infos.First().PlayerCode),
+			Arg.Is(infos.First().StatAt),
+			Arg.Is(infos.First().StartAt),
+			Arg.Is(infos.First().EndAt),
+			Arg.Is(infos.First().TriggerAt.AddMinutes(5)),
+			cancellationToken: Arg.Any<CancellationToken>())
+			.ConfigureAwait(false);
 	}
 }

@@ -12,5 +12,7 @@ public interface IGameWagerStatBacklogRepository
 
 	IAsyncEnumerable<GameWagerStatBacklogInfo> QueryAsync(DateTimeOffset endOn, int offset = 0, int limit = 20, CancellationToken cancellationToken = default);
 
-	ValueTask UpdateExpireOnAsync(string playerCode, DateTimeOffset statAt, DateTimeOffset startAt, DateTimeOffset endAt, DateTimeOffset triggerAt, CancellationToken cancellationToken = default);
+	ValueTask UpdateTriggerAtAsync(string playerCode, DateTimeOffset statAt, DateTimeOffset startAt, DateTimeOffset endAt, DateTimeOffset triggerAt, CancellationToken cancellationToken = default);
+
+	ValueTask UpdateExpireAtAsync(string playerCode, DateTimeOffset statAt, DateTimeOffset startAt, DateTimeOffset endAt, CancellationToken cancellationToken = default);
 }

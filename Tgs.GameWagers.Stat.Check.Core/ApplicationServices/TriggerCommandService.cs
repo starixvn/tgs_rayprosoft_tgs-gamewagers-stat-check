@@ -42,6 +42,15 @@ internal class TriggerCommandService(
 					},
 					cancellationToken: cancellationToken)
 					.ConfigureAwait(false);
+
+				await repository.UpdateTriggerAtAsync(
+					info.PlayerCode,
+					info.StatAt,
+					info.StartAt,
+					info.EndAt,
+					info.TriggerAt.AddMinutes(5),
+					cancellationToken: cancellationToken)
+					.ConfigureAwait(false);
 			}
 
 			offset += 1;
