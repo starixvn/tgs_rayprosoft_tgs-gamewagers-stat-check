@@ -1,0 +1,6 @@
+@Tgs.GameWagers.Stat.Check_HostAddress = http://localhost:5286
+
+GET {{Tgs.GameWagers.Stat.Check_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
