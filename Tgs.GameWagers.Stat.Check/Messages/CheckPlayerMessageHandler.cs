@@ -3,6 +3,7 @@
 using Valhalla.MessageQueue;
 using Tgs.GameWagers.Stat.Check.Core.ApplicationServices;
 using Tgs.GameWagers.Stat.Check.Common.Protos;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Tgs.GameWagers.Stat.Check.Messages;
 
@@ -22,7 +23,8 @@ public class CheckPlayerMessageHandler(
 				PlayerCode: data.PlayerCode,
 				StatAt: data.StatAt.ToDateTimeOffset(),
 				StartAt: data.StartAt.ToDateTimeOffset(),
-				EndAt: data.EndAt.ToDateTimeOffset()),
+				EndAt: data.EndAt.ToDateTimeOffset(),
+				TriggerAt: data.TriggerAt.ToDateTimeOffset()),
 			cancellationToken: cancellationToken);
 	}
 }

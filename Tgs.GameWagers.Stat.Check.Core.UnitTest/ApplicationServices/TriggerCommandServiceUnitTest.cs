@@ -50,7 +50,9 @@ public class TriggerCommandServiceUnitTest
 				PlayerCode = infos.First().PlayerCode,
 				StatAt = infos.First().StatAt.ToTimestamp(),
 				StartAt = infos.First().StartAt.ToTimestamp(),
-				EndAt = infos.First().EndAt.ToTimestamp()
+				EndAt = infos.First().EndAt.ToTimestamp(),
+				TriggerAt = infos.First().TriggerAt.ToTimestamp(),
+
 			}),
 			cancellationToken: Arg.Any<CancellationToken>());
 	}

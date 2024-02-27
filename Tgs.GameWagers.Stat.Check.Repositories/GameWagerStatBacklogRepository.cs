@@ -97,7 +97,7 @@ internal class GameWagerStatBacklogRepository(
 			}
 		}
 	}
-	public async ValueTask UpdateExpireOnAsync(string playerCode, DateTimeOffset statAt, DateTimeOffset startAt, DateTimeOffset endAt, CancellationToken cancellationToken = default)
+	public async ValueTask UpdateExpireOnAsync(string playerCode, DateTimeOffset statAt, DateTimeOffset startAt, DateTimeOffset endAt, DateTimeOffset triggerAt, CancellationToken cancellationToken = default)
 	{
 		var collection = await GetCollectionAsync(cancellationToken).ConfigureAwait(false);
 
@@ -111,6 +111,7 @@ internal class GameWagerStatBacklogRepository(
 			.Set(s => s.StatAt, statAt.UtcDateTime)
 			.Set(s => s.StartAt, startAt.UtcDateTime)
 			.Set(s => s.EndAt, endAt.UtcDateTime)
+			.Set(s => s.TriggerAt, triggerAt.UtcDateTime)
 			.Set(s => s.ExpireAt, DateTime.UtcNow.AddSeconds(1))
 			.Inc(s => s.Count, 1);
 

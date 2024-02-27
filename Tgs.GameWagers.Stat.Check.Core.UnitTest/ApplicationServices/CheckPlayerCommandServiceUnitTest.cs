@@ -26,7 +26,8 @@ public class CheckPlayerCommandServiceUnitTest
 			"4ucmqplxb029",
 			StatAt: DateTimeOffset.Parse("2024-02-27T08:20:00.000Z"),
 			StartAt: DateTimeOffset.Parse("2024-02-27T08:20:00.000Z"),
-			EndAt: DateTimeOffset.Parse("2024-02-27T08:25:00.000Z"));
+			EndAt: DateTimeOffset.Parse("2024-02-27T08:25:00.000Z"),
+			TriggerAt: DateTimeOffset.Parse("2024-02-27T08:30:00.000Z"));
 
 		var gameWagerStatInfos = new GameWagerStatInfo[]
 		{
@@ -105,6 +106,16 @@ public class CheckPlayerCommandServiceUnitTest
 			turnover: Arg.Is(gameWagerStatInfos.First().Turnover),
 			winLoss: Arg.Is(gameWagerStatInfos.First().WinLoss),
 			cancellationToken: Arg.Any<CancellationToken>());
+
+		_ = fakeGameWagerStatBacklogRepository
+			.Received(1)
+			.UpdateExpireOnAsync(
+			playerCode: Arg.Is(command.PlayerCode),
+			statAt: Arg.Is(command.StatAt),
+			startAt: Arg.Is(command.StartAt),
+			endAt: Arg.Is(command.EndAt),
+			triggerAt: Arg.Is(command.TriggerAt.AddMinutes(10)),
+			cancellationToken: Arg.Any<CancellationToken>());
 	}
 
 	[Fact]
@@ -119,7 +130,8 @@ public class CheckPlayerCommandServiceUnitTest
 			"4ucmqplxb029",
 			StatAt: DateTimeOffset.Parse("2024-02-27T08:20:00.000Z"),
 			StartAt: DateTimeOffset.Parse("2024-02-27T08:20:00.000Z"),
-			EndAt: DateTimeOffset.Parse("2024-02-27T08:25:00.000Z"));
+			EndAt: DateTimeOffset.Parse("2024-02-27T08:25:00.000Z"),
+			TriggerAt: DateTimeOffset.Parse("2024-02-27T08:30:00.000Z"));
 
 		var gameWagerStatInfos = new GameWagerStatInfo[]
 		{
@@ -213,6 +225,16 @@ public class CheckPlayerCommandServiceUnitTest
 			turnover: Arg.Is(gameWagerStatInfos.First().Turnover),
 			winLoss: Arg.Is(gameWagerStatInfos.First().WinLoss),
 			cancellationToken: Arg.Any<CancellationToken>());
+
+		_ = fakeGameWagerStatBacklogRepository
+			.Received(1)
+			.UpdateExpireOnAsync(
+			playerCode: Arg.Is(command.PlayerCode),
+			statAt: Arg.Is(command.StatAt),
+			startAt: Arg.Is(command.StartAt),
+			endAt: Arg.Is(command.EndAt),
+			triggerAt: Arg.Is(command.TriggerAt.AddMinutes(10)),
+			cancellationToken: Arg.Any<CancellationToken>());
 	}
 
 	[Fact]
@@ -227,7 +249,8 @@ public class CheckPlayerCommandServiceUnitTest
 			"4ucmqplxb029",
 			StatAt: DateTimeOffset.Parse("2024-02-27T08:20:00.000Z"),
 			StartAt: DateTimeOffset.Parse("2024-02-27T08:20:00.000Z"),
-			EndAt: DateTimeOffset.Parse("2024-02-27T08:25:00.000Z"));
+			EndAt: DateTimeOffset.Parse("2024-02-27T08:25:00.000Z"),
+			TriggerAt: DateTimeOffset.Parse("2024-02-27T08:30:00.000Z"));
 
 		var gameWagerStatInfos = new GameWagerStatInfo[]
 		{
@@ -264,13 +287,13 @@ public class CheckPlayerCommandServiceUnitTest
 			GameProviderId: Guid.Parse("6214260a-cf3c-4fb5-ba78-9214fe5608bf"),
 			GameId: 3500042,
 			StatOn: DateTimeOffset.Parse("2024-02-27T08:20:00+00:00"),
-			Count : 171,
-			Bet : 85.5m,
-			ValidBet : 85.5m,
-			Settle : 41.6m,
-			Commission : 0,
-			Turnover : 85.5m,
-			WinLoss : -43.9m);
+			Count: 171,
+			Bet: 85.5m,
+			ValidBet: 85.5m,
+			Settle: 41.6m,
+			Commission: 0,
+			Turnover: 85.5m,
+			WinLoss: -43.9m);
 		_ = fakeGameWagerStatCloseRepository.GetAsync(
 			playerCode: Arg.Is(gameWagerStatInfos.First().PlayerCode),
 			gameProviderId: Arg.Is(gameWagerStatInfos.First().GameProviderId),
@@ -320,6 +343,16 @@ public class CheckPlayerCommandServiceUnitTest
 			commission: Arg.Is(gameWagerStatInfos.First().Commission),
 			turnover: Arg.Is(gameWagerStatInfos.First().Turnover),
 			winLoss: Arg.Is(gameWagerStatInfos.First().WinLoss),
+			cancellationToken: Arg.Any<CancellationToken>());
+
+		_ = fakeGameWagerStatBacklogRepository
+			.Received(1)
+			.UpdateExpireOnAsync(
+			playerCode: Arg.Is(command.PlayerCode),
+			statAt: Arg.Is(command.StatAt),
+			startAt: Arg.Is(command.StartAt),
+			endAt: Arg.Is(command.EndAt),
+			triggerAt: Arg.Is(command.TriggerAt.AddMinutes(10)),
 			cancellationToken: Arg.Any<CancellationToken>());
 	}
 }

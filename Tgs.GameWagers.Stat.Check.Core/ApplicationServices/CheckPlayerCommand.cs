@@ -3,4 +3,5 @@ public record CheckPlayerCommand(
 	string PlayerCode,
 	DateTimeOffset StatAt,
 	DateTimeOffset StartAt,
-	DateTimeOffset EndAt);
+	DateTimeOffset EndAt,
+	DateTimeOffset TriggerAt);

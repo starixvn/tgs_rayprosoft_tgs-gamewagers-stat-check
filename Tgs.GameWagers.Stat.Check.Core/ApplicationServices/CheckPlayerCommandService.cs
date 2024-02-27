@@ -93,6 +93,7 @@ internal class CheckPlayerCommandService(
 			command.StatAt,
 			command.StartAt,
 			command.EndAt,
+			command.TriggerAt.AddMinutes(10),
 			cancellationToken: cancellationToken)
 			.ConfigureAwait(false);
 	}

@@ -37,7 +37,8 @@ internal class TriggerCommandService(
 						PlayerCode = info.PlayerCode,
 						StatAt = info.StatAt.ToTimestamp(),
 						StartAt = info.StartAt.ToTimestamp(),
-						EndAt = info.EndAt.ToTimestamp()
+						EndAt = info.EndAt.ToTimestamp(),
+						TriggerAt = info.TriggerAt.ToTimestamp()
 					},
 					cancellationToken: cancellationToken)
 					.ConfigureAwait(false);
