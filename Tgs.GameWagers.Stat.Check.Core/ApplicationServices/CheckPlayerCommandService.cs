@@ -1,8 +1,13 @@
-﻿using Tgs.GameWagers.Stat.Check.Core.Models;
+﻿using System.Text.Json;
+using Microsoft.Extensions.Logging;
+using Microsoft.VisualBasic;
+using Tgs.GameWagers.Stat.Check.Core.Models;
 using Tgs.ServiceUtility;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Tgs.GameWagers.Stat.Check.Core.ApplicationServices;
 internal class CheckPlayerCommandService(
+	ILogger<CheckPlayerCommandService> logger,
 	IGameWagerRepository gameWagerRepository,
 	IGameWagerStatCloseRepository gameWagerStatCloseRepository,
 	IGameWagerStatBacklogRepository gameWagerStatBacklogRepository) : ICommandService<CheckPlayerCommand>
@@ -30,6 +35,10 @@ internal class CheckPlayerCommandService(
 				.ConfigureAwait(false);
 			if (gameWagerStatCloseInfo is null)
 			{
+				logger.LogWarning("LogOn:{logOn} Mesaage:This new game wager stat close information. Add Info({info})",
+					DateTime.Now.ToString("o"),
+					info);
+
 				await gameWagerStatCloseRepository.AddAsync(
 					resellerId: info.ResellerId,
 					licenseeId: info.LicenseeId,
@@ -58,6 +67,11 @@ internal class CheckPlayerCommandService(
 					info.Turnover != gameWagerStatCloseInfo.Turnover ||
 					info.WinLoss != gameWagerStatCloseInfo.WinLoss)
 				{
+					logger.LogWarning("LogOn:{logOn} Mesaage:This updates game wager stat close information. Old Info:{old}  Update Info:{update}",
+						DateTime.Now.ToString("o"),
+						JsonSerializer.Serialize(info),
+						JsonSerializer.Serialize(gameWagerStatCloseInfo));
+
 					await gameWagerStatCloseRepository.UpdateAsync(
 						playerCode: info.PlayerCode,
 						gameProviderId: info.GameProviderId,
