@@ -2,7 +2,7 @@ variables:
   ImageName: pgtgs/game-gamewagers-stat-check
   SettingKey: game-gamewagers-stat-check
   HelmTemplateFolderName: game-gamewagers-stat-check
-  BuildCacheKey: Tgs.GameWagers.Stat.Worker.$CI_PIPELINE_ID
+  BuildCacheKey: Tgs.GameWagers.Stat.Check.$CI_PIPELINE_ID
 
 default:
   before_script:
@@ -59,9 +59,9 @@ push-docker-image:
     untracked: true   
     policy: pull
   script:
-    #- dotnet build "Tgs.GameWagers.Stat.Worker/Tgs.GameWagers.Stat.Worker.csproj" -c $BuildConfiguration -t:ContainerBuild -p:DockerfileTag="$ImageName:$Tag" --no-restore
-    #- docker build -t "$ImageName:$Tag" --build-arg [BUILD_CONFIGURATION]=$BuildConfiguration -f "Tgs.GameWagers.Stat.Worker/Dockerfile" . --no-cache
-    - dotnet publish "Tgs.GameWagers.Stat.Worker" 
+    #- dotnet build "Tgs.GameWagers.Stat.Check/Tgs.GameWagers.Stat.Check.csproj" -c $BuildConfiguration -t:ContainerBuild -p:DockerfileTag="$ImageName:$Tag" --no-restore
+    #- docker build -t "$ImageName:$Tag" --build-arg [BUILD_CONFIGURATION]=$BuildConfiguration -f "Tgs.GameWagers.Stat.Check/Dockerfile" . --no-cache
+    - dotnet publish "Tgs.GameWagers.Stat.Check" 
        --os linux --arch x64
        /t:PublishContainer
        -c $BuildConfiguration
