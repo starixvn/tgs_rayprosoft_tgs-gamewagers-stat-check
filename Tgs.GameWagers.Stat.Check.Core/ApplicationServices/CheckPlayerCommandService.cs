@@ -1,9 +1,7 @@
 ﻿using System.Text.Json;
 using Microsoft.Extensions.Logging;
-using Microsoft.VisualBasic;
 using Tgs.GameWagers.Stat.Check.Core.Models;
 using Tgs.ServiceUtility;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Tgs.GameWagers.Stat.Check.Core.ApplicationServices;
 internal class CheckPlayerCommandService(
