@@ -16,6 +16,6 @@ internal class MongoDBConnectionManager
 		var options = optionsAccessor.Value;
 		var mongoUrl = new MongoUrl(options.ConnectionString);
 		MongoClient = new MongoClient(mongoUrl);
-		MongoDatabase = MongoClient.GetDatabase("vip_level_master");
+		MongoDatabase = MongoClient.GetDatabase("game_wager_master");
 	}
 }
