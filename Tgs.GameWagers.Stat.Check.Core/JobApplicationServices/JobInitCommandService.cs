@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using Tgs.ServiceUtility;
 using Tgs.GameWagers.Stat.Check.Core;
 using Tgs.GameWagers.Stat.Check.Core.JobApplicationServices;
+using Hangfire.Dashboard.Management.Pages;
 
 namespace Tgs.GameWagers.Stat.Check.Core.JobApplicationServices;
 
@@ -24,6 +25,14 @@ internal class JobInitCommandService : ICommandService<JobInitCommand>
 
 	public ValueTask ExecuteAsync(JobInitCommand command, CancellationToken cancellationToken = default)
 	{
+		using (var connection = JobStorage.Current.GetConnection())
+		{
+			foreach (var recurringJob in connection.GetRecurringJobs())
+			{
+				RecurringJob.RemoveIfExists(recurringJob.Id);
+			}
+		}
+
 		try
 		{
 
