@@ -65,7 +65,6 @@ public class TriggerCommandServiceUnitTest
 			Arg.Is(infos.First().StartAt),
 			Arg.Is(infos.First().EndAt),
 			Arg.Is(infos.First().TriggerAt.AddMinutes(5)),
-			cancellationToken: Arg.Any<CancellationToken>())
-			.ConfigureAwait(false);
+			cancellationToken: Arg.Any<CancellationToken>());
 	}
 }
