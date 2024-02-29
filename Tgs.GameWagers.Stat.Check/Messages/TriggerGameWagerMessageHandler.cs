@@ -1,32 +1,25 @@
-﻿using Tgs.GameRecord.Handle.Common.Protos;
-using Tgs.ServiceUtility;
+﻿using Tgs.ServiceUtility;
 
 using Valhalla.MessageQueue;
 using Tgs.GameWagers.Stat.Check.Core.ApplicationServices;
+using Tgs.GameWagers.Stat.Worker.Common.Protos;
 
 namespace Tgs.GameWagers.Stat.Check.Messages;
 
 public class TriggerGameWagerMessageHandler(
 	ILogger<TriggerGameWagerMessageHandler> logger,
-	ICommandService<TriggerGameWagerCommand> service) : IMessageHandler<GameWagerPublish>
+	ICommandService<TriggerGameWagerCommand> service) : IMessageHandler<GameWagersFirstsMessage>
 {
-	public ValueTask HandleAsync(string subject, GameWagerPublish data, IEnumerable<MessageHeaderValue>? headerValues, CancellationToken cancellationToken = default)
+	public ValueTask HandleAsync(string subject, GameWagersFirstsMessage data, IEnumerable<MessageHeaderValue>? headerValues, CancellationToken cancellationToken = default)
 	{
 		var loggerInfo = new
 		{
-			data.GameProviderCode,
-			data.SubGameProviderCode,
+			GameProviderId = data.GameProviderId.ToGuid(),
 			data.GameId,
-			data.GameCategory,
-			data.GameType,
-			data.ResellerCode,
-			data.LicenseeCode,
-			data.BrandCode,
 			data.PlayerCode,
-			data.Username,
-			data.CurrencyCode,
-			data.ExternalRoundId,
-			data.ExternalWagerId
+			WalletId = data.WalletId.ToGuid(),
+			data.ExternalWagerId,
+			CreatedOn = data.CreatedOn.ToDateTimeOffset()
 		};
 
 		logger.LogInformation("LogOn:{logOn} Subject:{subject} Mesaage:This message has been received.({data})",

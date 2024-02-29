@@ -9,7 +9,7 @@ using OpenTelemetry.Metrics;
 
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
-using Tgs.GameRecord.Handle.Common;
+using Tgs.GameWagers.Firsts.Common;
 using Tgs.GameWagers.Stat.Check;
 using Tgs.GameWagers.Stat.Check.Messages;
 using Tgs.MessageQueue.Nats.Serializers;
@@ -94,7 +94,7 @@ builder.Services
 	.AddMessageQueue()
 	.AddNatsMessageQueue(config => config
 	.ConfigureResolveConnection(sp => sp.GetRequiredKeyedService<NatsConnection>("Nats"))
-	.AddHandler<TriggerGameWagerMessageHandler>(NatsConst.GameWagerSettleFirstDataPublish, typeof(TriggerGameWagerMessageHandler).FullName!.ToLower())
+	.AddHandler<TriggerGameWagerMessageHandler>(GameWagersFirstsNatsConst.GameWagersFirstsStatCheckPublish, typeof(TriggerGameWagerMessageHandler).FullName!.ToLower())
 	.AddHandler<TriggerMessageHandler>(GameWagersStatCheckNatsConst.Trigger, GameWagersStatCheckNatsConst.Trigger)
 	.AddHandler<CheckPlayerMessageHandler>(GameWagersStatCheckNatsConst.Check, GameWagersStatCheckNatsConst.Check))
 	.ClearAllExchanges()
