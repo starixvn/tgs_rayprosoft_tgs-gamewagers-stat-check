@@ -159,7 +159,7 @@ internal class GameWagerStatCheckDataBacklogRepository(
 		var createIndexOptions = new CreateIndexOptions
 		{
 			Unique = true,
-			Name = "px_game_wager_stat_check_data_backlogs"
+			Name = "px_index"
 		};
 		var createIndexModel = new CreateIndexModel<GameWagerStatCheckDataBacklog>(index, createIndexOptions);
 

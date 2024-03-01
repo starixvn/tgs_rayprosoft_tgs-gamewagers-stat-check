@@ -136,7 +136,7 @@ internal class GameWagerStatCheckWorkerBacklogRepository(
 		var createIndexOptions = new CreateIndexOptions
 		{
 			Unique = true,
-			Name = "px_game_wager_stat_check_worker_backlogs"
+			Name = "px_index"
 		};
 		var createIndexModel = new CreateIndexModel<GameWagerStatCheckWorkerBacklog>(index, createIndexOptions);
 
