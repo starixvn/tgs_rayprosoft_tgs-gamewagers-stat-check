@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Tgs.GameWagers.Stat.Check.Core.Models;
-public record GameWagerStatBacklogInfo(
+public record GameWagerStatCheckDataBacklogInfo(
 	string PlayerCode,
 	DateTimeOffset StatAt,
 	DateTimeOffset StartAt,

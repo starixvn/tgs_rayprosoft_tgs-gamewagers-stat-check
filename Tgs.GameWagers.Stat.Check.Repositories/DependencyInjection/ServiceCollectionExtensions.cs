@@ -28,7 +28,8 @@ public static class ServiceCollectionExtensions
 			})
 			.AddTransient<IGameWagerRepository, GameWagerRepository>()
 			.AddTransient<IGameWagerStatCloseRepository, GameWagerStatCloseRepository>()
-			.AddTransient<IGameWagerStatBacklogRepository>((sp) => ActivatorUtilities.CreateInstance<GameWagerStatBacklogRepository>(sp, mongoDatabaseResolver(sp)));
+			.AddTransient<IGameWagerStatCheckWorkerBacklogRepository>((sp) => ActivatorUtilities.CreateInstance<GameWagerStatCheckWorkerBacklogRepository>(sp, mongoDatabaseResolver(sp)))
+			.AddTransient<IGameWagerStatCheckDataBacklogRepository>((sp) => ActivatorUtilities.CreateInstance<GameWagerStatCheckDataBacklogRepository>(sp, mongoDatabaseResolver(sp)));
 
 		SqlMapper.SetTypeMap(typeof(GameWagerStatInfo), new ColumnTypeMapper(typeof(GameWagerStatInfo)));
 		return services;

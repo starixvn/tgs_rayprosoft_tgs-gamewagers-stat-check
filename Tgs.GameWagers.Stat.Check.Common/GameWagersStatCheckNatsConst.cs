@@ -2,6 +2,7 @@
 
 public class GameWagersStatCheckNatsConst
 {
-	public const string Trigger = "game.gamewagers.stat.check.trigger";
-	public const string Check = "game.gamewagers.stat.check.check";
+	public const string StatBacklog = "game.gamewagers.stat.check.backlog";
+	public const string StatDataCheck = "game.gamewagers.stat.check.data";
+	public const string StatWorkerCheck = "game.gamewagers.stat.check.worker";
 }

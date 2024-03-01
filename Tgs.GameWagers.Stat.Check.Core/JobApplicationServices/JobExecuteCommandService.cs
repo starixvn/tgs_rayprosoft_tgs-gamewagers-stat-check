@@ -22,8 +22,8 @@ internal class JobExecuteCommandService(
 
 		logger.LogInformation("LogOn:{logOn} Publish Message:{message}", DateTime.Now.ToString("u"), message);
 
-		return messageSender.PublishAsync<GameWagersStatCheckTriggerMessage>(
-			subject: GameWagersStatCheckNatsConst.Trigger,
+		return messageSender.PublishAsync(
+			subject: GameWagersStatCheckNatsConst.StatBacklog,
 			data: message,
 			cancellationToken: cancellationToken);
 	}

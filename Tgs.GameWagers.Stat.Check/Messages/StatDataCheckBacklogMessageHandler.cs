@@ -6,9 +6,9 @@ using Tgs.GameWagers.Stat.Check.Common.Protos;
 
 namespace Tgs.GameWagers.Stat.Check.Messages;
 
-public class TriggerMessageHandler(
-	ILogger<TriggerMessageHandler> logger,
-	ICommandService<TriggerCommand> service) : IMessageHandler<GameWagersStatCheckTriggerMessage>
+public class StatDataCheckBacklogMessageHandler(
+	ILogger<StatDataCheckBacklogMessageHandler> logger,
+	ICommandService<StatDataCheckBacklogCommand> service) : IMessageHandler<GameWagersStatCheckTriggerMessage>
 {
 	public ValueTask HandleAsync(string subject, GameWagersStatCheckTriggerMessage data, IEnumerable<MessageHeaderValue>? headerValues, CancellationToken cancellationToken = default)
 	{
@@ -18,7 +18,7 @@ public class TriggerMessageHandler(
 			data);
 
 		return service.ExecuteAsync(
-			command: new TriggerCommand(
+			command: new StatDataCheckBacklogCommand(
 				TriggerAt: data.TriggerAt.ToDateTimeOffset()),
 			cancellationToken: cancellationToken);
 	}

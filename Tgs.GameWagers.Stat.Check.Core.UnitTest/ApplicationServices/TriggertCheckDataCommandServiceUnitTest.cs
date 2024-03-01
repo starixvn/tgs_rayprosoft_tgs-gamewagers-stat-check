@@ -2,19 +2,18 @@
 using NSubstitute;
 
 using Tgs.GameWagers.Stat.Check.Core.ApplicationServices;
-using Tgs.GameWagers.Stat.Check.Core.Models;
 
 namespace Tgs.GameWagers.Stat.Check.Core.UnitTest.ApplicationServices;
-public class TriggerGameWagerCommandServiceUnitTest
+public class TriggertCheckDataCommandServiceUnitTest
 {
 	[Fact]
 	public async void Normal_Process()
 	{
-		var fakeLog = NullLogger<TriggerGameWagerCommandService>.Instance;
+		var fakeLog = NullLogger<TriggertCheckDataCommandService>.Instance;
 		var fakeStatisticalTimeUtnsil = Substitute.For<IStatisticalTimeUtnsil>();
-		var fakeGameWagerRepository = Substitute.For<IGameWagerStatBacklogRepository>();
+		var fakeRepository = Substitute.For<IGameWagerStatCheckDataBacklogRepository>();
 
-		var command = new TriggerGameWagerCommand(
+		var command = new TriggertCheckDataCommand(
 			PlayerCode: "4ucmqplxb029",
 			ClosedOn: new DateTimeOffset(2024, 02, 27, 16, 34, 38, 00, TimeSpan.FromHours(8)));
 
@@ -24,21 +23,21 @@ public class TriggerGameWagerCommandServiceUnitTest
 			Arg.Is(command.ClosedOn))
 			.Returns(statOn);
 
-		var sut = new TriggerGameWagerCommandService(
+		var sut = new TriggertCheckDataCommandService(
 			fakeLog,
 			fakeStatisticalTimeUtnsil,
-			fakeGameWagerRepository);
+			fakeRepository);
 
 		await sut.ExecuteAsync(command);
 
-		_ = fakeGameWagerRepository
+		_ = fakeRepository
 			.Received(1)
 			.AddAsync(
-			Arg.Is(command.PlayerCode),
-			Arg.Is(statOn),
-			Arg.Is(statOn),
-			Arg.Is(statOn.AddMinutes(5)),
-			Arg.Is(statOn.AddMinutes(10)),
-			Arg.Any<CancellationToken>());
+			playerCode: Arg.Is(command.PlayerCode),
+			statAt: Arg.Is(statOn),
+			startAt: Arg.Is(statOn),
+			endAt: Arg.Is(statOn.AddMinutes(5)),
+			triggerAt: Arg.Is(statOn.AddHours(1)),
+			cancellationToken: Arg.Any<CancellationToken>());
 	}
 }

@@ -1,5 +1,5 @@
 ﻿namespace Tgs.GameWagers.Stat.Check.Core.ApplicationServices;
-public record CheckPlayerCommand(
+public record StatDataCheckCommand(
 	string PlayerCode,
 	DateTimeOffset StatAt,
 	DateTimeOffset StartAt,

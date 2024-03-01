@@ -1,6 +1,4 @@
-﻿using System.Threading;
-using Google.Protobuf.WellKnownTypes;
-using Microsoft.Extensions.Logging.Abstractions;
+﻿using Google.Protobuf.WellKnownTypes;
 using NSubstitute;
 using Tgs.GameWagers.Stat.Check.Common.Protos;
 using Tgs.GameWagers.Stat.Check.Core.ApplicationServices;
@@ -9,18 +7,18 @@ using Tgs.VipLevels.Level.Common;
 using Valhalla.MessageQueue;
 
 namespace Tgs.GameWagers.Stat.Check.Core.UnitTest.ApplicationServices;
-public class TriggerCommandServiceUnitTest
+public class StatDataCheckBacklogCommandServiceUnitTest
 {
 	[Fact]
 	public async void Normal_Process()
 	{
-		var fakeGameWagerRepository = Substitute.For<IGameWagerStatBacklogRepository>();
+		var fakeGameWagerRepository = Substitute.For<IGameWagerStatCheckDataBacklogRepository>();
 		var fakeMessageSender = Substitute.For<IMessageSender>();
 
-		var command = new TriggerCommand(
+		var command = new StatDataCheckBacklogCommand(
 			TriggerAt: new DateTimeOffset(2024, 02, 27, 16, 34, 38, 00, TimeSpan.FromHours(8)));
 
-		var infos = new GameWagerStatBacklogInfo[] {new(
+		var infos = new GameWagerStatCheckDataBacklogInfo[] {new(
 			"4ucmqplxb029",
 			StatAt:DateTimeOffset.Parse("2024-02-27T08:20:00.000Z"),
 			StartAt:DateTimeOffset.Parse("2024-02-27T08:20:00.000Z"),
@@ -34,9 +32,9 @@ public class TriggerCommandServiceUnitTest
 			offset: Arg.Any<int>(),
 			limit: Arg.Is(100),
 			cancellationToken: Arg.Any<CancellationToken>())
-			.Returns(infos.ToAsyncEnumerable(), Enumerable.Empty<GameWagerStatBacklogInfo>().ToAsyncEnumerable());
+			.Returns(infos.ToAsyncEnumerable(), Enumerable.Empty<GameWagerStatCheckDataBacklogInfo>().ToAsyncEnumerable());
 
-		var sut = new TriggerCommandService(
+		var sut = new StatDataCheckBacklogCommandService(
 			fakeGameWagerRepository,
 			fakeMessageSender);
 
@@ -45,8 +43,8 @@ public class TriggerCommandServiceUnitTest
 		_ = fakeMessageSender
 			.Received(1)
 			.PublishAsync(
-			subject: Arg.Is(GameWagersStatCheckNatsConst.Check),
-			data: Arg.Is(new GameWagersStatCheckCheckPlayerMessage
+			subject: Arg.Is(GameWagersStatCheckNatsConst.StatDataCheck),
+			data: Arg.Is(new GameWagersStatCheckCheckDataMessage
 			{
 				PlayerCode = infos.First().PlayerCode,
 				StatAt = infos.First().StatAt.ToTimestamp(),
@@ -59,12 +57,12 @@ public class TriggerCommandServiceUnitTest
 
 		_ = fakeGameWagerRepository
 			.Received(1)
-			.UpdateTriggerAtAsync(
+			.UpdateExpireAtAsync(
 			Arg.Is(infos.First().PlayerCode),
 			Arg.Is(infos.First().StatAt),
 			Arg.Is(infos.First().StartAt),
 			Arg.Is(infos.First().EndAt),
-			Arg.Is(infos.First().TriggerAt.AddMinutes(5)),
+			Arg.Is(infos.First().TriggerAt),
 			cancellationToken: Arg.Any<CancellationToken>());
 	}
 }

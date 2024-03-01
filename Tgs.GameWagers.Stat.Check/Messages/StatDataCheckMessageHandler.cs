@@ -3,15 +3,14 @@
 using Valhalla.MessageQueue;
 using Tgs.GameWagers.Stat.Check.Core.ApplicationServices;
 using Tgs.GameWagers.Stat.Check.Common.Protos;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Tgs.GameWagers.Stat.Check.Messages;
 
-public class CheckPlayerMessageHandler(
-	ILogger<CheckPlayerMessageHandler> logger,
-	ICommandService<CheckPlayerCommand> service) : IMessageHandler<GameWagersStatCheckCheckPlayerMessage>
+public class StatDataCheckMessageHandler(
+	ILogger<StatDataCheckMessageHandler> logger,
+	ICommandService<StatDataCheckCommand> service) : IMessageHandler<GameWagersStatCheckCheckDataMessage>
 {
-	public ValueTask HandleAsync(string subject, GameWagersStatCheckCheckPlayerMessage data, IEnumerable<MessageHeaderValue>? headerValues, CancellationToken cancellationToken = default)
+	public ValueTask HandleAsync(string subject, GameWagersStatCheckCheckDataMessage data, IEnumerable<MessageHeaderValue>? headerValues, CancellationToken cancellationToken = default)
 	{
 		logger.LogInformation("LogOn:{logOn} Subject:{subject} Mesaage:This message has been received.({data})",
 			DateTime.Now.ToString("o"),
@@ -19,7 +18,7 @@ public class CheckPlayerMessageHandler(
 			data);
 
 		return service.ExecuteAsync(
-			command: new CheckPlayerCommand(
+			command: new StatDataCheckCommand(
 				PlayerCode: data.PlayerCode,
 				StatAt: data.StatAt.ToDateTimeOffset(),
 				StartAt: data.StartAt.ToDateTimeOffset(),

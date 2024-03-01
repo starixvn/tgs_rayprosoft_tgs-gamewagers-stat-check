@@ -94,12 +94,16 @@ builder.Services
 	.AddMessageQueue()
 	.AddNatsMessageQueue(config => config
 	.ConfigureResolveConnection(sp => sp.GetRequiredKeyedService<NatsConnection>("Nats"))
-	.AddHandler<TriggerGameWagerMessageHandler>(GameWagersFirstsNatsConst.GameWagersFirstsStatCheckPublish, typeof(TriggerGameWagerMessageHandler).FullName!.ToLower())
-	.AddHandler<TriggerMessageHandler>(GameWagersStatCheckNatsConst.Trigger, GameWagersStatCheckNatsConst.Trigger)
-	.AddHandler<CheckPlayerMessageHandler>(GameWagersStatCheckNatsConst.Check, GameWagersStatCheckNatsConst.Check))
+	.AddHandler<TriggertCheckDataMessageHandler>(GameWagersFirstsNatsConst.GameWagersFirstsStatCheckPublish, typeof(TriggertCheckDataMessageHandler).FullName!.ToLower())
+	.AddHandler<TriggertCheckWorkerMessageHandler>(GameWagersFirstsNatsConst.GameWagersFirstsStatCheckPublish, typeof(TriggertCheckWorkerMessageHandler).FullName!.ToLower())
+	.AddHandler<StatDataCheckBacklogMessageHandler>(GameWagersStatCheckNatsConst.StatBacklog, typeof(StatDataCheckBacklogMessageHandler).FullName!.ToLower())
+	.AddHandler<StatDataCheckMessageHandler>(GameWagersStatCheckNatsConst.StatDataCheck, typeof(StatDataCheckMessageHandler).FullName!.ToLower())
+	.AddHandler<StatWorkerCheckBacklogMessageHandler>(GameWagersStatCheckNatsConst.StatBacklog, typeof(StatWorkerCheckBacklogMessageHandler).FullName!.ToLower())
+	.AddHandler<StatWorkerCheckMessageHandler>(GameWagersStatCheckNatsConst.StatWorkerCheck, typeof(StatWorkerCheckMessageHandler).FullName!.ToLower()))
 	.ClearAllExchanges()
-	.AddNatsGlobPatternExchange(GameWagersStatCheckNatsConst.Trigger)
-	.AddNatsGlobPatternExchange(GameWagersStatCheckNatsConst.Check);
+	.AddNatsGlobPatternExchange(GameWagersStatCheckNatsConst.StatBacklog)
+	.AddNatsGlobPatternExchange(GameWagersStatCheckNatsConst.StatDataCheck)
+	.AddNatsGlobPatternExchange(GameWagersStatCheckNatsConst.StatWorkerCheck);
 
 builder.Services
 	.AddOpenTelemetry()

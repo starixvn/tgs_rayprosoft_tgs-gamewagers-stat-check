@@ -3,12 +3,12 @@ using Tgs.ServiceUtility;
 
 namespace Tgs.GameWagers.Stat.Check.Core.ApplicationServices;
 
-internal class TriggerGameWagerCommandService(
-	ILogger<TriggerGameWagerCommandService> logger,
+internal class TriggertCheckDataCommandService(
+	ILogger<TriggertCheckDataCommandService> logger,
 	IStatisticalTimeUtnsil statisticalTimeUtnsil,
-	IGameWagerStatBacklogRepository repository) : ICommandService<TriggerGameWagerCommand>
+	IGameWagerStatCheckDataBacklogRepository repository) : ICommandService<TriggertCheckDataCommand>
 {
-	public ValueTask ExecuteAsync(TriggerGameWagerCommand command, CancellationToken cancellationToken = default)
+	public ValueTask ExecuteAsync(TriggertCheckDataCommand command, CancellationToken cancellationToken = default)
 	{
 		logger.LogInformation("LogOn:{logOn} Mesaage:This command information.({command})",
 			DateTime.Now.ToString("o"),
@@ -21,7 +21,7 @@ internal class TriggerGameWagerCommandService(
 			statAt: statOn,
 			startAt: statOn,
 			endAt: statOn.AddMinutes(+5),
-			triggerAt: statOn.AddMinutes(+10),
+			triggerAt: statOn.AddHours(1),
 			cancellationToken: cancellationToken);
 	}
 }

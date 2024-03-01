@@ -1,28 +1,19 @@
-﻿using System.Runtime.InteropServices;
-using System.Threading;
-using Google.Protobuf.WellKnownTypes;
-using Microsoft.Extensions.Logging.Abstractions;
-using Microsoft.VisualBasic;
+﻿using Microsoft.Extensions.Logging.Abstractions;
 using NSubstitute;
-using NSubstitute.Core;
-using Tgs.GameWagers.Stat.Check.Common.Protos;
 using Tgs.GameWagers.Stat.Check.Core.ApplicationServices;
 using Tgs.GameWagers.Stat.Check.Core.Models;
-using Tgs.VipLevels.Level.Common;
-using Valhalla.MessageQueue;
 
 namespace Tgs.GameWagers.Stat.Check.Core.UnitTest.ApplicationServices;
-public class CheckPlayerCommandServiceUnitTest
+public class StatDataCheckCommandServiceUnitTest
 {
 	[Fact]
 	public async void This_new_game_wager_stat_close_information()
 	{
-		var fakeLog = NullLogger<CheckPlayerCommandService>.Instance;
+		var fakeLog = NullLogger<StatDataCheckCommandService>.Instance;
 		var fakeGameWagerRepository = Substitute.For<IGameWagerRepository>();
 		var fakeGameWagerStatCloseRepository = Substitute.For<IGameWagerStatCloseRepository>();
-		var fakeGameWagerStatBacklogRepository = Substitute.For<IGameWagerStatBacklogRepository>();
 
-		var command = new CheckPlayerCommand(
+		var command = new StatDataCheckCommand(
 			"4ucmqplxb029",
 			StatAt: DateTimeOffset.Parse("2024-02-27T08:20:00.000Z"),
 			StartAt: DateTimeOffset.Parse("2024-02-27T08:20:00.000Z"),
@@ -64,11 +55,10 @@ public class CheckPlayerCommandServiceUnitTest
 			cancellationToken: Arg.Any<CancellationToken>())
 			.Returns((GameWagerStatCloseInfo?)null);
 
-		var sut = new CheckPlayerCommandService(
+		var sut = new StatDataCheckCommandService(
 			fakeLog,
 			fakeGameWagerRepository,
-			fakeGameWagerStatCloseRepository,
-			fakeGameWagerStatBacklogRepository);
+			fakeGameWagerStatCloseRepository);
 
 		await sut.ExecuteAsync(command);
 
@@ -106,26 +96,16 @@ public class CheckPlayerCommandServiceUnitTest
 			turnover: Arg.Is(gameWagerStatInfos.First().Turnover),
 			winLoss: Arg.Is(gameWagerStatInfos.First().WinLoss),
 			cancellationToken: Arg.Any<CancellationToken>());
-
-		_ = fakeGameWagerStatBacklogRepository
-			.Received(1)
-			.UpdateExpireAtAsync(
-			playerCode: Arg.Is(command.PlayerCode),
-			statAt: Arg.Is(command.StatAt),
-			startAt: Arg.Is(command.StartAt),
-			endAt: Arg.Is(command.EndAt),
-			cancellationToken: Arg.Any<CancellationToken>());
 	}
 
 	[Fact]
 	public async void This_updates_game_wager_stat_close_information()
 	{
-		var fakeLog = NullLogger<CheckPlayerCommandService>.Instance;
+		var fakeLog = NullLogger<StatDataCheckCommandService>.Instance;
 		var fakeGameWagerRepository = Substitute.For<IGameWagerRepository>();
 		var fakeGameWagerStatCloseRepository = Substitute.For<IGameWagerStatCloseRepository>();
-		var fakeGameWagerStatBacklogRepository = Substitute.For<IGameWagerStatBacklogRepository>();
 
-		var command = new CheckPlayerCommand(
+		var command = new StatDataCheckCommand(
 			"4ucmqplxb029",
 			StatAt: DateTimeOffset.Parse("2024-02-27T08:20:00.000Z"),
 			StartAt: DateTimeOffset.Parse("2024-02-27T08:20:00.000Z"),
@@ -182,11 +162,10 @@ public class CheckPlayerCommandServiceUnitTest
 			cancellationToken: Arg.Any<CancellationToken>())
 			.Returns(gameWagerStatCloseInfo);
 
-		var sut = new CheckPlayerCommandService(
+		var sut = new StatDataCheckCommandService(
 			fakeLog,
 			fakeGameWagerRepository,
-			fakeGameWagerStatCloseRepository,
-			fakeGameWagerStatBacklogRepository);
+			fakeGameWagerStatCloseRepository);
 
 		await sut.ExecuteAsync(command);
 
@@ -224,26 +203,16 @@ public class CheckPlayerCommandServiceUnitTest
 			turnover: Arg.Is(gameWagerStatInfos.First().Turnover),
 			winLoss: Arg.Is(gameWagerStatInfos.First().WinLoss),
 			cancellationToken: Arg.Any<CancellationToken>());
-
-		_ = fakeGameWagerStatBacklogRepository
-			.Received(1)
-			.UpdateExpireAtAsync(
-			playerCode: Arg.Is(command.PlayerCode),
-			statAt: Arg.Is(command.StatAt),
-			startAt: Arg.Is(command.StartAt),
-			endAt: Arg.Is(command.EndAt),
-			cancellationToken: Arg.Any<CancellationToken>());
 	}
 
 	[Fact]
 	public async void No_changes()
 	{
-		var fakeLog = NullLogger<CheckPlayerCommandService>.Instance;
+		var fakeLog = NullLogger<StatDataCheckCommandService>.Instance;
 		var fakeGameWagerRepository = Substitute.For<IGameWagerRepository>();
 		var fakeGameWagerStatCloseRepository = Substitute.For<IGameWagerStatCloseRepository>();
-		var fakeGameWagerStatBacklogRepository = Substitute.For<IGameWagerStatBacklogRepository>();
 
-		var command = new CheckPlayerCommand(
+		var command = new StatDataCheckCommand(
 			"4ucmqplxb029",
 			StatAt: DateTimeOffset.Parse("2024-02-27T08:20:00.000Z"),
 			StartAt: DateTimeOffset.Parse("2024-02-27T08:20:00.000Z"),
@@ -300,11 +269,10 @@ public class CheckPlayerCommandServiceUnitTest
 			cancellationToken: Arg.Any<CancellationToken>())
 			.Returns(gameWagerStatCloseInfo);
 
-		var sut = new CheckPlayerCommandService(
+		var sut = new StatDataCheckCommandService(
 			fakeLog,
 			fakeGameWagerRepository,
-			fakeGameWagerStatCloseRepository,
-			fakeGameWagerStatBacklogRepository);
+			fakeGameWagerStatCloseRepository);
 
 		await sut.ExecuteAsync(command);
 
@@ -341,15 +309,6 @@ public class CheckPlayerCommandServiceUnitTest
 			commission: Arg.Is(gameWagerStatInfos.First().Commission),
 			turnover: Arg.Is(gameWagerStatInfos.First().Turnover),
 			winLoss: Arg.Is(gameWagerStatInfos.First().WinLoss),
-			cancellationToken: Arg.Any<CancellationToken>());
-
-		_ = fakeGameWagerStatBacklogRepository
-			.Received(1)
-			.UpdateExpireAtAsync(
-			playerCode: Arg.Is(command.PlayerCode),
-			statAt: Arg.Is(command.StatAt),
-			startAt: Arg.Is(command.StartAt),
-			endAt: Arg.Is(command.EndAt),
 			cancellationToken: Arg.Any<CancellationToken>());
 	}
 }

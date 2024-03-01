@@ -3,8 +3,8 @@ using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Bson;
 
 namespace Tgs.GameWagers.Stat.Check.Repositories.Models;
-[Table("game_wager_stat_backlogs")]
-public class GameWagerStatBacklog
+[Table("game_wager_stat_check_worker_backlogs")]
+public class GameWagerStatCheckWorkerBacklog
 {
 	/// <summary>
 	/// The identifier
@@ -25,21 +25,6 @@ public class GameWagerStatBacklog
 	[BsonRepresentation(BsonType.Int32)]
 	[BsonDefaultValue(0)]
 	public int Count { get; set; }
-	/// <summary>
-	/// The stat on
-	/// </summary>
-	[BsonElement("stat_at")]
-	public DateTime StatAt { get; set; }
-	/// <summary>
-	/// The start at
-	/// </summary>
-	[BsonElement("start_at")]
-	public DateTime StartAt { get; set; }
-	/// <summary>
-	/// The end at
-	/// </summary>
-	[BsonElement("end_at")]
-	public DateTime EndAt { get; set; }
 	/// <summary>
 	/// The updated on
 	/// </summary>

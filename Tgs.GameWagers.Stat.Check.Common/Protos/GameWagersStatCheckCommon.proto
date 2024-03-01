@@ -17,10 +17,14 @@ message GameWagersStatCheckTriggerMessage {
     google.protobuf.Timestamp trigger_at = 1;
 }
 
-message GameWagersStatCheckCheckPlayerMessage{
+message GameWagersStatCheckCheckDataMessage{
     string player_code = 1;
     google.protobuf.Timestamp stat_at = 2;
     google.protobuf.Timestamp start_at = 3;
     google.protobuf.Timestamp end_at = 4;
     google.protobuf.Timestamp trigger_at = 5;
+}
+
+message GameWagersStatCheckCheckWorkerMessage{
+    string player_code = 1;
 }

@@ -6,13 +6,13 @@ using Tgs.VipLevels.Level.Common;
 using Valhalla.MessageQueue;
 
 namespace Tgs.GameWagers.Stat.Check.Core.ApplicationServices;
-internal class TriggerCommandService(
-	IGameWagerStatBacklogRepository repository,
-	IMessageSender messageSender) : ICommandService<TriggerCommand>
+internal class StatDataCheckBacklogCommandService(
+	IGameWagerStatCheckDataBacklogRepository repository,
+	IMessageSender messageSender) : ICommandService<StatDataCheckBacklogCommand>
 {
-	public async ValueTask ExecuteAsync(TriggerCommand command, CancellationToken cancellationToken = default)
+	public async ValueTask ExecuteAsync(StatDataCheckBacklogCommand command, CancellationToken cancellationToken = default)
 	{
-		IEnumerable<GameWagerStatBacklogInfo>? infos;
+		IEnumerable<GameWagerStatCheckDataBacklogInfo>? infos;
 		var offset = 0;
 		var limit = 100;
 
@@ -26,13 +26,13 @@ internal class TriggerCommandService(
 				.ToArrayAsync(
 				cancellationToken: cancellationToken)
 				.ConfigureAwait(false)
-				?? Enumerable.Empty<GameWagerStatBacklogInfo>();
+				?? Enumerable.Empty<GameWagerStatCheckDataBacklogInfo>();
 
 			foreach (var info in infos)
 			{
 				await messageSender.PublishAsync(
-					GameWagersStatCheckNatsConst.Check,
-					data: new GameWagersStatCheckCheckPlayerMessage
+					GameWagersStatCheckNatsConst.StatDataCheck,
+					data: new GameWagersStatCheckCheckDataMessage
 					{
 						PlayerCode = info.PlayerCode,
 						StatAt = info.StatAt.ToTimestamp(),
@@ -43,12 +43,12 @@ internal class TriggerCommandService(
 					cancellationToken: cancellationToken)
 					.ConfigureAwait(false);
 
-				await repository.UpdateTriggerAtAsync(
-					info.PlayerCode,
-					info.StatAt,
-					info.StartAt,
-					info.EndAt,
-					info.TriggerAt.AddMinutes(5),
+				await repository.UpdateExpireAtAsync(
+					playerCode: info.PlayerCode,
+					statAt: info.StatAt,
+					startAt: info.StartAt,
+					endAt: info.EndAt,
+					triggerAt: info.TriggerAt,
 					cancellationToken: cancellationToken)
 					.ConfigureAwait(false);
 			}
