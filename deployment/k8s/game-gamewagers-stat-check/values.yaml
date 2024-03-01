@@ -94,3 +94,9 @@ affinity:
           values:
           - game-gamewagers-stat-check
       topologyKey: kubernetes.io/hostname
+
+restart:
+  enabled: false
+  serviceAccount: game-gamewagers-stat-check-restarter
+  annotations: {}
+  schedule: 0 0 * * * 

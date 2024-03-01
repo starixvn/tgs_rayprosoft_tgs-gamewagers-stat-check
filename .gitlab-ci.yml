@@ -109,7 +109,6 @@ deploy-dev:
     - export resources=$(kubectl get cm resources-setting -o jsonpath={.data.$SettingKey})
     - export dedicated=$(kubectl get cm tgs-settings -o jsonpath={.data.dedicated_gamewagers})
     - export node_selector=$(kubectl get cm tgs-settings -o jsonpath={.data.node-selector_gamewagers})
-    - export autoscaling=$(kubectl get cm autoscaling-setting -o jsonpath={.data.$SettingKey})
     - |
       cat << EOF | yq e -P | helm template artifacts/k8s/$HelmTemplateFolderName \
         -n $namespace \
@@ -119,7 +118,11 @@ deploy-dev:
         "nodeSelector": $node_selector,
         "tolerations": [$dedicated],
         "resources": $resources,
-        "autoscaling": $autoscaling
+        "replicaCount": 1,
+        "restart": {
+            "enabled": true,
+            "schedule": "5 0 * * 1-4/3"
+        }
       }
       EOF
     - |
@@ -132,7 +135,11 @@ deploy-dev:
         "nodeSelector": $node_selector,
         "tolerations": [$dedicated],
         "resources": $resources,
-        "autoscaling": $autoscaling
+        "replicaCount": 1,
+        "restart": {
+            "enabled": true,
+            "schedule": "5 0 * * 1-4/3"
+        }
       }
       EOF
 
@@ -156,7 +163,6 @@ deploy-staging:
     - export resources=$(kubectl get cm resources-setting -o jsonpath={.data.$SettingKey})
     - export dedicated=$(kubectl get cm tgs-settings -o jsonpath={.data.dedicated_gamewagers})
     - export node_selector=$(kubectl get cm tgs-settings -o jsonpath={.data.node-selector_gamewagers})
-    - export autoscaling=$(kubectl get cm autoscaling-setting -o jsonpath={.data.$SettingKey})
     - |
       cat << EOF | yq e -P | helm template artifacts/k8s/$HelmTemplateFolderName \
         -n $namespace \
@@ -166,7 +172,11 @@ deploy-staging:
         "nodeSelector": $node_selector,
         "tolerations": [$dedicated],
         "resources": $resources,
-        "autoscaling": $autoscaling
+        "replicaCount": 1,
+        "restart": {
+            "enabled": true,
+            "schedule": "5 0 * * 1-4/3"
+        }
       }
       EOF
     - |
@@ -179,7 +189,11 @@ deploy-staging:
         "nodeSelector": $node_selector,
         "tolerations": [$dedicated],
         "resources": $resources,
-        "autoscaling": $autoscaling
+        "replicaCount": 1,
+        "restart": {
+            "enabled": true,
+            "schedule": "5 0 * * 1-4/3"
+        }
       }
       EOF
 
@@ -203,7 +217,6 @@ deploy-prod:
     - export resources=$(kubectl get cm resources-setting -o jsonpath={.data.$SettingKey})
     - export dedicated=$(kubectl get cm tgs-settings -o jsonpath={.data.dedicated_gamewagers})
     - export node_selector=$(kubectl get cm tgs-settings -o jsonpath={.data.node-selector_gamewagers})
-    - export autoscaling=$(kubectl get cm autoscaling-setting -o jsonpath={.data.$SettingKey})
     - |
       cat << EOF | yq e -P | helm template artifacts/k8s/$HelmTemplateFolderName \
         -n $namespace \
@@ -213,7 +226,11 @@ deploy-prod:
         "nodeSelector": $node_selector,
         "tolerations": [$dedicated],
         "resources": $resources,
-        "autoscaling": $autoscaling
+        "replicaCount": 2,
+        "restart": {
+            "enabled": true,
+            "schedule": "5 0 * * 1-4/3"
+        }
       }
       EOF
     - |
@@ -226,6 +243,10 @@ deploy-prod:
         "nodeSelector": $node_selector,
         "tolerations": [$dedicated],
         "resources": $resources,
-        "autoscaling": $autoscaling
+        "replicaCount": 2,
+        "restart": {
+            "enabled": true,
+            "schedule": "5 0 * * 1-4/3"
+        }
       }
       EOF
