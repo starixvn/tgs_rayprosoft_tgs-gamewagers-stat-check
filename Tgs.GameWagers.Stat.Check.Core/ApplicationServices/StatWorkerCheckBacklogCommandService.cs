@@ -40,7 +40,7 @@ internal class StatWorkerCheckBacklogCommandService(
 
 				await repository.UpdateExpireAtAsync(
 					playerCode: info.PlayerCode,
-					triggerAt: info.TriggerAt,
+					triggerAt: info.TriggerAt.AddMinutes(+5),
 					cancellationToken: cancellationToken)
 					.ConfigureAwait(false);
 			}

@@ -17,8 +17,7 @@ internal class GameWagerStatCheckWorkerBacklogRepository(
 	{
 		var collection = await GetCollectionAsync(cancellationToken).ConfigureAwait(false);
 
-		var filter = Builders<GameWagerStatCheckWorkerBacklog>.Filter.Eq(x => x.PlayerCode, playerCode)
-			& Builders<GameWagerStatCheckWorkerBacklog>.Filter.Eq(x => x.TriggerAt, triggerAt.UtcDateTime);
+		var filter = Builders<GameWagerStatCheckWorkerBacklog>.Filter.Eq(x => x.PlayerCode, playerCode);
 
 		var update = Builders<GameWagerStatCheckWorkerBacklog>.Update
 			.Set(s => s.PlayerCode, playerCode)
@@ -92,8 +91,7 @@ internal class GameWagerStatCheckWorkerBacklogRepository(
 	{
 		var collection = await GetCollectionAsync(cancellationToken).ConfigureAwait(false);
 
-		var filter = Builders<GameWagerStatCheckWorkerBacklog>.Filter.Eq(x => x.PlayerCode, playerCode)
-			& Builders<GameWagerStatCheckWorkerBacklog>.Filter.Eq(x => x.TriggerAt, triggerAt.UtcDateTime);
+		var filter = Builders<GameWagerStatCheckWorkerBacklog>.Filter.Eq(x => x.PlayerCode, playerCode);
 
 		var update = Builders<GameWagerStatCheckWorkerBacklog>.Update
 			.Set(s => s.PlayerCode, playerCode)
