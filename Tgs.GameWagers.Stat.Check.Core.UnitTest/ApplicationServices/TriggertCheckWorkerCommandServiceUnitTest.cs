@@ -9,7 +9,6 @@ public class TriggertCheckWorkerCommandServiceUnitTest
 	[Fact]
 	public async void Normal_Process()
 	{
-		var fakeLog = NullLogger<TriggertCheckWorkerCommandService>.Instance;
 		var fakeRepository = Substitute.For<IGameWagerStatCheckWorkerBacklogRepository>();
 
 		var command = new TriggertCheckWorkerCommand(
@@ -17,7 +16,6 @@ public class TriggertCheckWorkerCommandServiceUnitTest
 			ClosedOn: new DateTimeOffset(2024, 02, 27, 16, 34, 38, 00, TimeSpan.FromHours(8)));
 
 		var sut = new TriggertCheckWorkerCommandService(
-			fakeLog,
 			fakeRepository);
 
 		await sut.ExecuteAsync(command);

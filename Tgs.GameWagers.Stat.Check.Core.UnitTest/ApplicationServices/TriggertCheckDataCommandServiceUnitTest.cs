@@ -9,7 +9,6 @@ public class TriggertCheckDataCommandServiceUnitTest
 	[Fact]
 	public async void Normal_Process()
 	{
-		var fakeLog = NullLogger<TriggertCheckDataCommandService>.Instance;
 		var fakeStatisticalTimeUtnsil = Substitute.For<IStatisticalTimeUtnsil>();
 		var fakeRepository = Substitute.For<IGameWagerStatCheckDataBacklogRepository>();
 
@@ -24,7 +23,6 @@ public class TriggertCheckDataCommandServiceUnitTest
 			.Returns(statOn);
 
 		var sut = new TriggertCheckDataCommandService(
-			fakeLog,
 			fakeStatisticalTimeUtnsil,
 			fakeRepository);
 
