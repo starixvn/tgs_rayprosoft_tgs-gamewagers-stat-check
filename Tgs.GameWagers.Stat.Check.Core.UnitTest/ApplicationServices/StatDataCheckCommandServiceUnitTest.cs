@@ -2,6 +2,7 @@
 using NSubstitute;
 using Tgs.GameWagers.Stat.Check.Core.ApplicationServices;
 using Tgs.GameWagers.Stat.Check.Core.Models;
+using Tgs.ServiceUtility;
 
 namespace Tgs.GameWagers.Stat.Check.Core.UnitTest.ApplicationServices;
 public class StatDataCheckCommandServiceUnitTest
@@ -12,6 +13,8 @@ public class StatDataCheckCommandServiceUnitTest
 		var fakeLog = NullLogger<StatDataCheckCommandService>.Instance;
 		var fakeGameWagerRepository = Substitute.For<IGameWagerRepository>();
 		var fakeGameWagerStatCloseRepository = Substitute.For<IGameWagerStatCloseRepository>();
+		var fakeAddService = Substitute.For<ICommandService<GameWagerStatCloseAddCommand>>();
+		var fakeUpdateService = Substitute.For<ICommandService<GameWagerStatCloseUpdateCommand>>();
 
 		var command = new StatDataCheckCommand(
 			"4ucmqplxb029",
@@ -58,43 +61,22 @@ public class StatDataCheckCommandServiceUnitTest
 		var sut = new StatDataCheckCommandService(
 			fakeLog,
 			fakeGameWagerRepository,
-			fakeGameWagerStatCloseRepository);
+			fakeGameWagerStatCloseRepository,
+			fakeAddService,
+			fakeUpdateService);
 
 		await sut.ExecuteAsync(command);
 
-		_ = fakeGameWagerStatCloseRepository
+		_ = fakeAddService
 			.Received(1)
-			.AddAsync(
-			resellerId: Arg.Is(gameWagerStatInfos.First().ResellerId),
-			licenseeId: Arg.Is(gameWagerStatInfos.First().LicenseeId),
-			brandId: Arg.Is(gameWagerStatInfos.First().BrandId),
-			playerCode: Arg.Is(gameWagerStatInfos.First().PlayerCode),
-			gameProviderId: Arg.Is(gameWagerStatInfos.First().GameProviderId),
-			gameId: Arg.Is(gameWagerStatInfos.First().GameId),
-			statOn: Arg.Is(gameWagerStatInfos.First().StatOn),
-			count: Arg.Is(gameWagerStatInfos.First().Count),
-			bet: Arg.Is(gameWagerStatInfos.First().Bet),
-			validBet: Arg.Is(gameWagerStatInfos.First().ValidBet),
-			settle: Arg.Is(gameWagerStatInfos.First().Settle),
-			commission: Arg.Is(gameWagerStatInfos.First().Commission),
-			turnover: Arg.Is(gameWagerStatInfos.First().Turnover),
-			winLoss: Arg.Is(gameWagerStatInfos.First().WinLoss),
+			.ExecuteAsync(
+			command: Arg.Any<GameWagerStatCloseAddCommand>(),
 			cancellationToken: Arg.Any<CancellationToken>());
 
-		_ = fakeGameWagerStatCloseRepository
+		_ = fakeUpdateService
 			.Received(0)
-			.UpdateAsync(
-			playerCode: Arg.Is(gameWagerStatInfos.First().PlayerCode),
-			gameProviderId: Arg.Is(gameWagerStatInfos.First().GameProviderId),
-			gameId: Arg.Is(gameWagerStatInfos.First().GameId),
-			statOn: Arg.Is(gameWagerStatInfos.First().StatOn),
-			count: Arg.Is(gameWagerStatInfos.First().Count),
-			bet: Arg.Is(gameWagerStatInfos.First().Bet),
-			validBet: Arg.Is(gameWagerStatInfos.First().ValidBet),
-			settle: Arg.Is(gameWagerStatInfos.First().Settle),
-			commission: Arg.Is(gameWagerStatInfos.First().Commission),
-			turnover: Arg.Is(gameWagerStatInfos.First().Turnover),
-			winLoss: Arg.Is(gameWagerStatInfos.First().WinLoss),
+			.ExecuteAsync(
+			command: Arg.Any<GameWagerStatCloseUpdateCommand>(),
 			cancellationToken: Arg.Any<CancellationToken>());
 	}
 
@@ -104,6 +86,8 @@ public class StatDataCheckCommandServiceUnitTest
 		var fakeLog = NullLogger<StatDataCheckCommandService>.Instance;
 		var fakeGameWagerRepository = Substitute.For<IGameWagerRepository>();
 		var fakeGameWagerStatCloseRepository = Substitute.For<IGameWagerStatCloseRepository>();
+		var fakeAddService = Substitute.For<ICommandService<GameWagerStatCloseAddCommand>>();
+		var fakeUpdateService = Substitute.For<ICommandService<GameWagerStatCloseUpdateCommand>>();
 
 		var command = new StatDataCheckCommand(
 			"4ucmqplxb029",
@@ -165,43 +149,22 @@ public class StatDataCheckCommandServiceUnitTest
 		var sut = new StatDataCheckCommandService(
 			fakeLog,
 			fakeGameWagerRepository,
-			fakeGameWagerStatCloseRepository);
+			fakeGameWagerStatCloseRepository,
+			fakeAddService,
+			fakeUpdateService);
 
 		await sut.ExecuteAsync(command);
 
-		_ = fakeGameWagerStatCloseRepository
+		_ = fakeAddService
 			.Received(0)
-			.AddAsync(
-			resellerId: Arg.Is(gameWagerStatInfos.First().ResellerId),
-			licenseeId: Arg.Is(gameWagerStatInfos.First().LicenseeId),
-			brandId: Arg.Is(gameWagerStatInfos.First().BrandId),
-			playerCode: Arg.Is(gameWagerStatInfos.First().PlayerCode),
-			gameProviderId: Arg.Is(gameWagerStatInfos.First().GameProviderId),
-			gameId: Arg.Is(gameWagerStatInfos.First().GameId),
-			statOn: Arg.Is(gameWagerStatInfos.First().StatOn),
-			count: Arg.Is(gameWagerStatInfos.First().Count),
-			bet: Arg.Is(gameWagerStatInfos.First().Bet),
-			validBet: Arg.Is(gameWagerStatInfos.First().ValidBet),
-			settle: Arg.Is(gameWagerStatInfos.First().Settle),
-			commission: Arg.Is(gameWagerStatInfos.First().Commission),
-			turnover: Arg.Is(gameWagerStatInfos.First().Turnover),
-			winLoss: Arg.Is(gameWagerStatInfos.First().WinLoss),
+			.ExecuteAsync(
+			command: Arg.Any<GameWagerStatCloseAddCommand>(),
 			cancellationToken: Arg.Any<CancellationToken>());
 
-		_ = fakeGameWagerStatCloseRepository
+		_ = fakeUpdateService
 			.Received(1)
-			.UpdateAsync(
-			playerCode: Arg.Is(gameWagerStatInfos.First().PlayerCode),
-			gameProviderId: Arg.Is(gameWagerStatInfos.First().GameProviderId),
-			gameId: Arg.Is(gameWagerStatInfos.First().GameId),
-			statOn: Arg.Is(gameWagerStatInfos.First().StatOn),
-			count: Arg.Is(gameWagerStatInfos.First().Count),
-			bet: Arg.Is(gameWagerStatInfos.First().Bet),
-			validBet: Arg.Is(gameWagerStatInfos.First().ValidBet),
-			settle: Arg.Is(gameWagerStatInfos.First().Settle),
-			commission: Arg.Is(gameWagerStatInfos.First().Commission),
-			turnover: Arg.Is(gameWagerStatInfos.First().Turnover),
-			winLoss: Arg.Is(gameWagerStatInfos.First().WinLoss),
+			.ExecuteAsync(
+			command: Arg.Any<GameWagerStatCloseUpdateCommand>(),
 			cancellationToken: Arg.Any<CancellationToken>());
 	}
 
@@ -211,6 +174,8 @@ public class StatDataCheckCommandServiceUnitTest
 		var fakeLog = NullLogger<StatDataCheckCommandService>.Instance;
 		var fakeGameWagerRepository = Substitute.For<IGameWagerRepository>();
 		var fakeGameWagerStatCloseRepository = Substitute.For<IGameWagerStatCloseRepository>();
+		var fakeAddService = Substitute.For<ICommandService<GameWagerStatCloseAddCommand>>();
+		var fakeUpdateService = Substitute.For<ICommandService<GameWagerStatCloseUpdateCommand>>();
 
 		var command = new StatDataCheckCommand(
 			"4ucmqplxb029",
@@ -272,43 +237,22 @@ public class StatDataCheckCommandServiceUnitTest
 		var sut = new StatDataCheckCommandService(
 			fakeLog,
 			fakeGameWagerRepository,
-			fakeGameWagerStatCloseRepository);
+			fakeGameWagerStatCloseRepository,
+			fakeAddService,
+			fakeUpdateService);
 
 		await sut.ExecuteAsync(command);
 
-		_ = fakeGameWagerStatCloseRepository
+		_ = fakeAddService
 			.Received(0)
-			.AddAsync(
-			resellerId: Arg.Is(gameWagerStatInfos.First().ResellerId),
-			licenseeId: Arg.Is(gameWagerStatInfos.First().LicenseeId),
-			brandId: Arg.Is(gameWagerStatInfos.First().BrandId),
-			playerCode: Arg.Is(gameWagerStatInfos.First().PlayerCode),
-			gameProviderId: Arg.Is(gameWagerStatInfos.First().GameProviderId),
-			gameId: Arg.Is(gameWagerStatInfos.First().GameId),
-			statOn: Arg.Is(gameWagerStatInfos.First().StatOn),
-			count: Arg.Is(gameWagerStatInfos.First().Count),
-			bet: Arg.Is(gameWagerStatInfos.First().Bet),
-			validBet: Arg.Is(gameWagerStatInfos.First().ValidBet),
-			settle: Arg.Is(gameWagerStatInfos.First().Settle),
-			commission: Arg.Is(gameWagerStatInfos.First().Commission),
-			turnover: Arg.Is(gameWagerStatInfos.First().Turnover),
-			winLoss: Arg.Is(gameWagerStatInfos.First().WinLoss),
+			.ExecuteAsync(
+			command: Arg.Any<GameWagerStatCloseAddCommand>(),
 			cancellationToken: Arg.Any<CancellationToken>());
 
-		_ = fakeGameWagerStatCloseRepository
+		_ = fakeUpdateService
 			.Received(0)
-			.UpdateAsync(
-			playerCode: Arg.Is(gameWagerStatInfos.First().PlayerCode),
-			gameProviderId: Arg.Is(gameWagerStatInfos.First().GameProviderId),
-			gameId: Arg.Is(gameWagerStatInfos.First().GameId),
-			statOn: Arg.Is(gameWagerStatInfos.First().StatOn),
-			count: Arg.Is(gameWagerStatInfos.First().Count),
-			bet: Arg.Is(gameWagerStatInfos.First().Bet),
-			validBet: Arg.Is(gameWagerStatInfos.First().ValidBet),
-			settle: Arg.Is(gameWagerStatInfos.First().Settle),
-			commission: Arg.Is(gameWagerStatInfos.First().Commission),
-			turnover: Arg.Is(gameWagerStatInfos.First().Turnover),
-			winLoss: Arg.Is(gameWagerStatInfos.First().WinLoss),
+			.ExecuteAsync(
+			command: Arg.Any<GameWagerStatCloseUpdateCommand>(),
 			cancellationToken: Arg.Any<CancellationToken>());
 	}
 }

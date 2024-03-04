@@ -7,7 +7,9 @@ namespace Tgs.GameWagers.Stat.Check.Core.ApplicationServices;
 internal class StatDataCheckCommandService(
 	ILogger<StatDataCheckCommandService> logger,
 	IGameWagerRepository gameWagerRepository,
-	IGameWagerStatCloseRepository gameWagerStatCloseRepository) : ICommandService<StatDataCheckCommand>
+	IGameWagerStatCloseRepository gameWagerStatCloseRepository,
+	ICommandService<GameWagerStatCloseAddCommand> addService,
+	ICommandService<GameWagerStatCloseUpdateCommand> updateService) : ICommandService<StatDataCheckCommand>
 {
 	public async ValueTask ExecuteAsync(StatDataCheckCommand command, CancellationToken cancellationToken = default)
 	{
@@ -36,21 +38,22 @@ internal class StatDataCheckCommandService(
 					DateTime.Now.ToString("o"),
 					info);
 
-				await gameWagerStatCloseRepository.AddAsync(
-					resellerId: info.ResellerId,
-					licenseeId: info.LicenseeId,
-					brandId: info.BrandId,
-					playerCode: info.PlayerCode,
-					gameProviderId: info.GameProviderId,
-					gameId: info.GameId,
-					statOn: info.StatOn,
-					count: info.Count,
-					bet: info.Bet,
-					validBet: info.ValidBet,
-					settle: info.Settle,
-					commission: info.Commission,
-					turnover: info.Turnover,
-					winLoss: info.WinLoss,
+				await addService.ExecuteAsync(
+					command: new GameWagerStatCloseAddCommand(
+						ResellerId: info.ResellerId,
+						LicenseeId: info.LicenseeId,
+						BrandId: info.BrandId,
+						PlayerCode: info.PlayerCode,
+						GameProviderId: info.GameProviderId,
+						GameId: info.GameId,
+						StatOn: info.StatOn,
+						Count: info.Count,
+						Bet: info.Bet,
+						ValidBet: info.ValidBet,
+						Settle: info.Settle,
+						Commission: info.Commission,
+						Turnover: info.Turnover,
+						WinLoss: info.WinLoss),
 					cancellationToken: cancellationToken)
 					.ConfigureAwait(false);
 			}
@@ -69,18 +72,22 @@ internal class StatDataCheckCommandService(
 						JsonSerializer.Serialize(gameWagerStatCloseInfo),
 						JsonSerializer.Serialize(info));
 
-					await gameWagerStatCloseRepository.UpdateAsync(
-						playerCode: info.PlayerCode,
-						gameProviderId: info.GameProviderId,
-						gameId: info.GameId,
-						statOn: info.StatOn,
-						count: info.Count,
-						bet: info.Bet,
-						validBet: info.ValidBet,
-						settle: info.Settle,
-						commission: info.Commission,
-						turnover: info.Turnover,
-						winLoss: info.WinLoss,
+					await updateService.ExecuteAsync(
+						command: new GameWagerStatCloseUpdateCommand(
+							ResellerId: info.ResellerId,
+							LicenseeId: info.LicenseeId,
+							BrandId: info.BrandId,
+							PlayerCode: info.PlayerCode,
+							GameProviderId: info.GameProviderId,
+							GameId: info.GameId,
+							StatOn: info.StatOn,
+							Count: info.Count,
+							Bet: info.Bet,
+							ValidBet: info.ValidBet,
+							Settle: info.Settle,
+							Commission: info.Commission,
+							Turnover: info.Turnover,
+							WinLoss: info.WinLoss),
 						cancellationToken: cancellationToken)
 						.ConfigureAwait(false);
 				}

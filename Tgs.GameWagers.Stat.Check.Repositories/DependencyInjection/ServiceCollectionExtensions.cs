@@ -26,6 +26,7 @@ public static class ServiceCollectionExtensions
 				var context = sp.GetRequiredService<TgsContext>();
 				return (NpgsqlConnection)context.Database.GetDbConnection();
 			})
+			.AddTransient<IBrandRepository, BrandRepository>()
 			.AddTransient<IGameWagerRepository, GameWagerRepository>()
 			.AddTransient<IGameWagerStatCloseRepository, GameWagerStatCloseRepository>()
 			.AddTransient<IGameWagerStatCheckWorkerBacklogRepository>((sp) => ActivatorUtilities.CreateInstance<GameWagerStatCheckWorkerBacklogRepository>(sp, mongoDatabaseResolver(sp)))

@@ -20,11 +20,23 @@
    "T4TemplatePath": null,
    "Tables": [
       {
+         "Name": "dbo.brands",
+         "ObjectType": 0
+      },
+      {
          "Name": "dbo.game_wager_stat_closes",
          "ObjectType": 0
       },
       {
          "Name": "dbo.game_wagers",
+         "ObjectType": 0
+      },
+      {
+         "Name": "dbo.licensees",
+         "ObjectType": 0
+      },
+      {
+         "Name": "dbo.resellers",
          "ObjectType": 0
       }
    ],
