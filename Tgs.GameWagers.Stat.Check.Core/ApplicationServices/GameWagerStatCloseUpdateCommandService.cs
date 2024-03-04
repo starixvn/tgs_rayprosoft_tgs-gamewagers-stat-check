@@ -3,9 +3,11 @@ using Tgs.GameWagers.Stat.Hourly.Common;
 using Tgs.ServiceUtility;
 using Valhalla.MessageQueue;
 using Google.Protobuf.WellKnownTypes;
+using Microsoft.Extensions.Logging;
 
 namespace Tgs.GameWagers.Stat.Check.Core.ApplicationServices;
 internal class GameWagerStatCloseUpdateCommandService(
+	ILogger<GameWagerStatCloseUpdateCommandService> logger,
 	IBrandRepository brandRepository,
 	IGameWagerStatCloseRepository gameWagerStatCloseRepository,
 	IMessageSender messageSender) : ICommandService<GameWagerStatCloseUpdateCommand>
@@ -32,21 +34,28 @@ internal class GameWagerStatCloseUpdateCommandService(
 			cancellationToken: cancellationToken)
 			.ConfigureAwait(false);
 
+		var message = new GameWagersStatHourlyMessage
+		{
+			ResellerId = brand.ResellerId,
+			ResellerCode = brand.ResellerCode,
+			LicenseeId = brand.LicenseeId,
+			LicenseeCode = brand.LicenseeCode,
+			BrandId = brand.BrandId,
+			BrandCode = brand.BrandCode,
+			TimeSpanMinutes = brand.TimeSpanMinutes,
+			StartOn = command.StatOn.AddHours(-1).ToTimestamp(),
+			EndOn = command.StatOn.ToTimestamp()
+		};
+
 		await messageSender.PublishAsync(
 			subject: GameWagersStatHourlyNatsConst.StatHourlyClose,
-			data: new GameWagersStatHourlyMessage
-			{
-				ResellerId = brand.ResellerId,
-				ResellerCode = brand.ResellerCode,
-				LicenseeId = brand.LicenseeId,
-				LicenseeCode = brand.LicenseeCode,
-				BrandId = brand.BrandId,
-				BrandCode = brand.BrandCode,
-				TimeSpanMinutes = brand.TimeSpanMinutes,
-				StartOn = command.StatOn.AddHours(-1).ToTimestamp(),
-				EndOn = command.StatOn.ToTimestamp()
-			},
+			data: message,
 			cancellationToken: cancellationToken)
 			.ConfigureAwait(false);
+
+		logger.LogInformation("LogOn:{logOn} Subject:{subject} Message:The content of this message.({message})",
+			DateTime.Now.ToString("u"),
+			GameWagersStatHourlyNatsConst.StatHourlyClose,
+			message);
 	}
 }

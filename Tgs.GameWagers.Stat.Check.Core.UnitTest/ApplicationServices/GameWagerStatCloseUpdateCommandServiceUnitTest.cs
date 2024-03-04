@@ -6,6 +6,7 @@ using Tgs.GameWagers.Stat.Hourly.Common.Protos;
 using Tgs.GameWagers.Stat.Hourly.Common;
 using Valhalla.MessageQueue;
 using NSubstitute.ReceivedExtensions;
+using Microsoft.Extensions.Logging.Abstractions;
 
 namespace Tgs.GameWagers.Stat.Check.Core.UnitTest.ApplicationServices;
 public class GameWagerStatCloseUpdateCommandServiceUnitTest
@@ -13,6 +14,7 @@ public class GameWagerStatCloseUpdateCommandServiceUnitTest
 	[Fact]
 	public async void Normal_Process()
 	{
+		var faceLogger = NullLogger<GameWagerStatCloseUpdateCommandService>.Instance;
 		var fakeBrandRepository = Substitute.For<IBrandRepository>();
 		var fakeGameWagerStatCloseRepository = Substitute.For<IGameWagerStatCloseRepository>();
 		var fakeMessageSender = Substitute.For<IMessageSender>();
@@ -47,6 +49,7 @@ public class GameWagerStatCloseUpdateCommandServiceUnitTest
 			.Returns(brand);
 
 		var sut = new GameWagerStatCloseUpdateCommandService(
+			faceLogger,
 			fakeBrandRepository,
 			fakeGameWagerStatCloseRepository,
 			fakeMessageSender);
