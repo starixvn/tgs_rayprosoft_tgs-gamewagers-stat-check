@@ -128,8 +128,7 @@ internal class GameWagerStatCheckWorkerBacklogRepository(
 	private static Task PrimaryKey_IndexAsync(IMongoCollection<GameWagerStatCheckWorkerBacklog> collection, CancellationToken cancellationToken = default)
 	{
 		var index = Builders<GameWagerStatCheckWorkerBacklog>.IndexKeys
-			.Ascending(m => m.PlayerCode)
-			.Ascending(m => m.TriggerAt);
+			.Ascending(m => m.PlayerCode);
 
 		var createIndexOptions = new CreateIndexOptions
 		{
