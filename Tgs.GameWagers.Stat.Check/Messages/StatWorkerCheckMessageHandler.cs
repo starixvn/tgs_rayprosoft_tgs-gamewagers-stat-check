@@ -7,7 +7,7 @@ using Tgs.GameWagers.Stat.Check.Common.Protos;
 namespace Tgs.GameWagers.Stat.Check.Messages;
 
 public class StatWorkerCheckMessageHandler(
-	ILogger<StatWorkerCheckCommand> logger,
+	ILogger<StatWorkerCheckMessageHandler> logger,
 	ICommandService<StatWorkerCheckCommand> service) : IMessageHandler<GameWagersStatCheckCheckWorkerMessage>
 {
 	public ValueTask HandleAsync(string subject, GameWagersStatCheckCheckWorkerMessage data, IEnumerable<MessageHeaderValue>? headerValues, CancellationToken cancellationToken = default)
