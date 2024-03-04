@@ -51,7 +51,7 @@ public class StatWorkerCheckBacklogCommandServiceUnitTest
 			.Received(1)
 			.UpdateExpireAtAsync(
 			Arg.Is(infos.First().PlayerCode),
-			Arg.Is(infos.First().TriggerAt),
+			Arg.Is(infos.First().TriggerAt.AddMinutes(+5)),
 			cancellationToken: Arg.Any<CancellationToken>());
 	}
 }
