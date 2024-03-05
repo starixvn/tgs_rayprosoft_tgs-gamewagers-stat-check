@@ -12,6 +12,8 @@ using OpenTelemetry.Trace;
 using Tgs.GameWagers.Firsts.Common;
 using Tgs.GameWagers.Stat.Check;
 using Tgs.GameWagers.Stat.Check.Messages;
+using Tgs.GameWagers.Stat.Hourly.Common;
+using Tgs.GameWagers.Stat.Hourly.Common.Protos;
 using Tgs.GameWagers.Stat.Worker.Common;
 using Tgs.MessageQueue.Nats.Serializers;
 using Tgs.VipLevels.Level.Common;
@@ -105,7 +107,8 @@ builder.Services
 	.AddNatsGlobPatternExchange(GameWagersStatCheckNatsConst.StatBacklog)
 	.AddNatsGlobPatternExchange(GameWagersStatCheckNatsConst.StatDataCheck)
 	.AddNatsGlobPatternExchange(GameWagersStatCheckNatsConst.StatWorkerCheck)
-	.AddNatsGlobPatternExchange(GameWagersStatWorkerNatsConst.Check);
+	.AddNatsGlobPatternExchange(GameWagersStatWorkerNatsConst.Check)
+	.AddNatsGlobPatternExchange(GameWagersStatHourlyNatsConst.StatHourlyClose);
 
 builder.Services
 	.AddOpenTelemetry()
