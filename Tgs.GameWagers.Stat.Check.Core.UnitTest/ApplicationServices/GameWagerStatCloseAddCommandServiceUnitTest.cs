@@ -89,7 +89,7 @@ public class GameWagerStatCloseAddCommandServiceUnitTest
 				BrandCode = brand.BrandCode,
 				TimeSpanMinutes = brand.TimeSpanMinutes,
 				StartOn = command.StatOn.AddMinutes(-5).ToTimestamp(),
-				EndOn = command.StatOn.ToTimestamp()
+				EndOn = command.StatOn.AddMinutes(+5).ToTimestamp()
 			}),
 			cancellationToken: Arg.Any<CancellationToken>());
 

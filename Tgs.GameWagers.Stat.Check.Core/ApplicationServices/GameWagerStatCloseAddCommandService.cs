@@ -46,7 +46,7 @@ internal class GameWagerStatCloseAddCommandService(
 			BrandId = brand.BrandId,
 			BrandCode = brand.BrandCode,
 			TimeSpanMinutes = brand.TimeSpanMinutes,
-			StartOn = command.StatOn.ToTimestamp(),
+			StartOn = command.StatOn.AddMinutes(-5).ToTimestamp(),
 			EndOn = command.StatOn.AddMinutes(+5).ToTimestamp()
 		};
 
