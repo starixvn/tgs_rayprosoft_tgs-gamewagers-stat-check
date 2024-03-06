@@ -28,3 +28,8 @@ message GameWagersStatCheckCheckDataMessage{
 message GameWagersStatCheckCheckWorkerMessage{
     string player_code = 1;
 }
+
+message GameWagersStatCheckDataHourlyMessage {
+    google.protobuf.Timestamp start_at = 1;
+    google.protobuf.Timestamp end_at = 2;
+}

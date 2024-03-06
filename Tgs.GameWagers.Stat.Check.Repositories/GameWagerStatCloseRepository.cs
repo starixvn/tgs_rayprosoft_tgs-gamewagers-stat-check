@@ -1,7 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Dapper;
+using System.Data;
+using Microsoft.EntityFrameworkCore;
 using Tgs.GameWagers.Stat.Check.Core;
 using Tgs.GameWagers.Stat.Check.Core.Models;
 using Tgs.GameWagers.Stat.Check.Entities;
+using Microsoft.Extensions.Logging;
 
 namespace Tgs.GameWagers.Stat.Check.Repositories;
 internal class GameWagerStatCloseRepository(
@@ -38,6 +41,7 @@ internal class GameWagerStatCloseRepository(
 			cancellationToken: cancellationToken)
 			.ConfigureAwait(false);
 	}
+
 	public ValueTask<GameWagerStatCloseInfo?> GetAsync(string playerCode, Guid gameProviderId, int gameId, DateTimeOffset statOn, CancellationToken cancellationToken = default)
 		=> context.GameWagerStatCloses
 		.Where(predicate: close => close.PlayerCode == playerCode &&
@@ -62,6 +66,7 @@ internal class GameWagerStatCloseRepository(
 		.ToAsyncEnumerable()
 		.FirstOrDefaultAsync(
 			cancellationToken: cancellationToken);
+
 	public async ValueTask UpdateAsync(string playerCode, Guid gameProviderId, int gameId, DateTimeOffset statOn, int count, decimal bet, decimal validBet, decimal settle, decimal commission, decimal turnover, decimal winLoss, CancellationToken cancellationToken = default)
 	{
 		var gameWagerStatClose = await context.GameWagerStatCloses

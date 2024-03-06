@@ -6,11 +6,12 @@ using Tgs.VipLevels.Level.Common;
 using Valhalla.MessageQueue;
 
 namespace Tgs.GameWagers.Stat.Check.Core.ApplicationServices;
-internal class StatDataCheckBacklogCommandService(
+
+internal class StatCheckDataBacklogCommandService(
 	IGameWagerStatCheckDataBacklogRepository repository,
-	IMessageSender messageSender) : ICommandService<StatDataCheckBacklogCommand>
+	IMessageSender messageSender) : ICommandService<StatCheckDataBacklogCommand>
 {
-	public async ValueTask ExecuteAsync(StatDataCheckBacklogCommand command, CancellationToken cancellationToken = default)
+	public async ValueTask ExecuteAsync(StatCheckDataBacklogCommand command, CancellationToken cancellationToken = default)
 	{
 		IEnumerable<GameWagerStatCheckDataBacklogInfo>? infos;
 		var offset = 0;
@@ -31,7 +32,7 @@ internal class StatDataCheckBacklogCommandService(
 			foreach (var info in infos)
 			{
 				await messageSender.PublishAsync(
-					GameWagersStatCheckNatsConst.StatDataCheck,
+					GameWagersStatCheckNatsConst.StatCheckData,
 					data: new GameWagersStatCheckCheckDataMessage
 					{
 						PlayerCode = info.PlayerCode,

@@ -1,11 +1,14 @@
-﻿using Tgs.GameWagers.Stat.Hourly.Common.Protos;
-using Tgs.GameWagers.Stat.Hourly.Common;
-using Tgs.ServiceUtility;
-using Valhalla.MessageQueue;
-using Google.Protobuf.WellKnownTypes;
+﻿using Google.Protobuf.WellKnownTypes;
 using Microsoft.Extensions.Logging;
 
+using Tgs.GameWagers.Stat.Hourly.Common;
+
+using Tgs.GameWagers.Stat.Hourly.Common.Protos;
+using Tgs.ServiceUtility;
+using Valhalla.MessageQueue;
+
 namespace Tgs.GameWagers.Stat.Check.Core.ApplicationServices;
+
 internal class GameWagerStatCloseAddCommandService(
 	ILogger<GameWagerStatCloseAddCommandService> logger,
 	IBrandRepository brandRepository,

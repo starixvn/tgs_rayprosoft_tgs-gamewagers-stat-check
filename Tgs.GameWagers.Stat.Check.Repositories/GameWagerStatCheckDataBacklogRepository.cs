@@ -14,6 +14,7 @@ using Tgs.GameWagers.Stat.Check.Core.Models;
 using Tgs.GameWagers.Stat.Check.Repositories.Models;
 
 namespace Tgs.GameWagers.Stat.Check.Repositories;
+
 internal class GameWagerStatCheckDataBacklogRepository(
 	ILogger<GameWagerStatCheckDataBacklogRepository> logger,
 	IMongoDatabase mongoDatabase) : IGameWagerStatCheckDataBacklogRepository
@@ -62,6 +63,7 @@ internal class GameWagerStatCheckDataBacklogRepository(
 				cancellationToken: cancellationToken))
 			.ConfigureAwait(false);
 	}
+
 	public async IAsyncEnumerable<GameWagerStatCheckDataBacklogInfo> QueryAsync(DateTimeOffset endOn, int offset = 0, int limit = 20, [EnumeratorCancellation] CancellationToken cancellationToken = default)
 	{
 		var collection = await GetCollectionAsync(cancellationToken).ConfigureAwait(false);
@@ -102,6 +104,7 @@ internal class GameWagerStatCheckDataBacklogRepository(
 			}
 		}
 	}
+
 	public async ValueTask UpdateExpireAtAsync(string playerCode, DateTimeOffset statAt, DateTimeOffset startAt, DateTimeOffset endAt, DateTimeOffset triggerAt, CancellationToken cancellationToken = default)
 	{
 		var collection = await GetCollectionAsync(cancellationToken).ConfigureAwait(false);

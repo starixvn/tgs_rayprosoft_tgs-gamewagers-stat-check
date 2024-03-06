@@ -5,18 +5,19 @@ using Tgs.GameWagers.Stat.Check.Core.Models;
 using Tgs.ServiceUtility;
 
 namespace Tgs.GameWagers.Stat.Check.Core.UnitTest.ApplicationServices;
-public class StatDataCheckCommandServiceUnitTest
+
+public class StatCheckDataCommandServiceUnitTest
 {
 	[Fact]
 	public async void This_new_game_wager_stat_close_information()
 	{
-		var fakeLog = NullLogger<StatDataCheckCommandService>.Instance;
+		var fakeLog = NullLogger<StatCheckDataCommandService>.Instance;
 		var fakeGameWagerRepository = Substitute.For<IGameWagerRepository>();
 		var fakeGameWagerStatCloseRepository = Substitute.For<IGameWagerStatCloseRepository>();
 		var fakeAddService = Substitute.For<ICommandService<GameWagerStatCloseAddCommand>>();
 		var fakeUpdateService = Substitute.For<ICommandService<GameWagerStatCloseUpdateCommand>>();
 
-		var command = new StatDataCheckCommand(
+		var command = new StatCheckDataCommand(
 			"4ucmqplxb029",
 			StatAt: DateTimeOffset.Parse("2024-02-27T08:20:00.000Z"),
 			StartAt: DateTimeOffset.Parse("2024-02-27T08:20:00.000Z"),
@@ -44,9 +45,9 @@ public class StatDataCheckCommandServiceUnitTest
 		};
 
 		_ = fakeGameWagerRepository.QueryAsync(
-			playerCode: Arg.Is(command.PlayerCode),
 			startOn: Arg.Is(command.StartAt),
 			endOn: Arg.Is(command.EndAt),
+			playerCode: Arg.Is(command.PlayerCode),
 			cancellationToken: Arg.Any<CancellationToken>())
 			.Returns(gameWagerStatInfos.ToAsyncEnumerable());
 
@@ -58,7 +59,7 @@ public class StatDataCheckCommandServiceUnitTest
 			cancellationToken: Arg.Any<CancellationToken>())
 			.Returns((GameWagerStatCloseInfo?)null);
 
-		var sut = new StatDataCheckCommandService(
+		var sut = new StatCheckDataCommandService(
 			fakeLog,
 			fakeGameWagerRepository,
 			fakeGameWagerStatCloseRepository,
@@ -83,13 +84,13 @@ public class StatDataCheckCommandServiceUnitTest
 	[Fact]
 	public async void This_updates_game_wager_stat_close_information()
 	{
-		var fakeLog = NullLogger<StatDataCheckCommandService>.Instance;
+		var fakeLog = NullLogger<StatCheckDataCommandService>.Instance;
 		var fakeGameWagerRepository = Substitute.For<IGameWagerRepository>();
 		var fakeGameWagerStatCloseRepository = Substitute.For<IGameWagerStatCloseRepository>();
 		var fakeAddService = Substitute.For<ICommandService<GameWagerStatCloseAddCommand>>();
 		var fakeUpdateService = Substitute.For<ICommandService<GameWagerStatCloseUpdateCommand>>();
 
-		var command = new StatDataCheckCommand(
+		var command = new StatCheckDataCommand(
 			"4ucmqplxb029",
 			StatAt: DateTimeOffset.Parse("2024-02-27T08:20:00.000Z"),
 			StartAt: DateTimeOffset.Parse("2024-02-27T08:20:00.000Z"),
@@ -117,9 +118,9 @@ public class StatDataCheckCommandServiceUnitTest
 		};
 
 		_ = fakeGameWagerRepository.QueryAsync(
-			playerCode: Arg.Is(command.PlayerCode),
 			startOn: Arg.Is(command.StartAt),
 			endOn: Arg.Is(command.EndAt),
+			playerCode: Arg.Is(command.PlayerCode),
 			cancellationToken: Arg.Any<CancellationToken>())
 			.Returns(gameWagerStatInfos.ToAsyncEnumerable());
 
@@ -146,7 +147,7 @@ public class StatDataCheckCommandServiceUnitTest
 			cancellationToken: Arg.Any<CancellationToken>())
 			.Returns(gameWagerStatCloseInfo);
 
-		var sut = new StatDataCheckCommandService(
+		var sut = new StatCheckDataCommandService(
 			fakeLog,
 			fakeGameWagerRepository,
 			fakeGameWagerStatCloseRepository,
@@ -171,13 +172,13 @@ public class StatDataCheckCommandServiceUnitTest
 	[Fact]
 	public async void No_changes()
 	{
-		var fakeLog = NullLogger<StatDataCheckCommandService>.Instance;
+		var fakeLog = NullLogger<StatCheckDataCommandService>.Instance;
 		var fakeGameWagerRepository = Substitute.For<IGameWagerRepository>();
 		var fakeGameWagerStatCloseRepository = Substitute.For<IGameWagerStatCloseRepository>();
 		var fakeAddService = Substitute.For<ICommandService<GameWagerStatCloseAddCommand>>();
 		var fakeUpdateService = Substitute.For<ICommandService<GameWagerStatCloseUpdateCommand>>();
 
-		var command = new StatDataCheckCommand(
+		var command = new StatCheckDataCommand(
 			"4ucmqplxb029",
 			StatAt: DateTimeOffset.Parse("2024-02-27T08:20:00.000Z"),
 			StartAt: DateTimeOffset.Parse("2024-02-27T08:20:00.000Z"),
@@ -205,9 +206,9 @@ public class StatDataCheckCommandServiceUnitTest
 		};
 
 		_ = fakeGameWagerRepository.QueryAsync(
-			playerCode: Arg.Is(command.PlayerCode),
 			startOn: Arg.Is(command.StartAt),
 			endOn: Arg.Is(command.EndAt),
+			playerCode: Arg.Is(command.PlayerCode),
 			cancellationToken: Arg.Any<CancellationToken>())
 			.Returns(gameWagerStatInfos.ToAsyncEnumerable());
 
@@ -234,7 +235,7 @@ public class StatDataCheckCommandServiceUnitTest
 			cancellationToken: Arg.Any<CancellationToken>())
 			.Returns(gameWagerStatCloseInfo);
 
-		var sut = new StatDataCheckCommandService(
+		var sut = new StatCheckDataCommandService(
 			fakeLog,
 			fakeGameWagerRepository,
 			fakeGameWagerStatCloseRepository,

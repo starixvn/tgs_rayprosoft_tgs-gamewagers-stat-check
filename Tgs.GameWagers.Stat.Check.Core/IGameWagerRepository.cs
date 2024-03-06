@@ -1,9 +1,12 @@
-﻿using System.Runtime.CompilerServices;
-using Tgs.GameWagers.Stat.Check.Core.Models;
+﻿using Tgs.GameWagers.Stat.Check.Core.Models;
 
 namespace Tgs.GameWagers.Stat.Check.Core;
 
 public interface IGameWagerRepository
 {
-	IAsyncEnumerable<GameWagerStatInfo> QueryAsync(string playerCode, DateTimeOffset startOn, DateTimeOffset endOn, CancellationToken cancellationToken = default);
+	IAsyncEnumerable<GameWagerStatInfo> QueryAsync(DateTimeOffset startOn, DateTimeOffset endOn, string playerCode, CancellationToken cancellationToken = default);
+
+	IAsyncEnumerable<GameWagerStatInfo> QueryAsync(DateTimeOffset startOn, DateTimeOffset endOn, CancellationToken cancellationToken = default);
+
+	IAsyncEnumerable<GameWagerStatInfo> QueryAsync(DateTimeOffset startOn, DateTimeOffset endOn, int offset = 0, int limit = 20, CancellationToken cancellationToken = default);
 }

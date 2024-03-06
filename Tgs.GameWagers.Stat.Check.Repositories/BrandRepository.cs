@@ -57,6 +57,7 @@ internal class BrandRepository(
 		cancellationToken: cancellationToken)
 		.ConfigureAwait(false)
 		?? throw new ArgumentNullException(code);
+
 	public async ValueTask<BrandInfo> GetAsync(Guid id, CancellationToken cancellationToken = default)
 	=> await context.Brands
 		.Join(

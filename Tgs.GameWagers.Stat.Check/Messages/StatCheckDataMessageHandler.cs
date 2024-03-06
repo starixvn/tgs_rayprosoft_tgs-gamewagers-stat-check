@@ -1,14 +1,16 @@
-﻿using Tgs.ServiceUtility;
+﻿using Tgs.GameWagers.Stat.Check.Common.Protos;
+
+using Tgs.GameWagers.Stat.Check.Core.ApplicationServices;
+
+using Tgs.ServiceUtility;
 
 using Valhalla.MessageQueue;
-using Tgs.GameWagers.Stat.Check.Core.ApplicationServices;
-using Tgs.GameWagers.Stat.Check.Common.Protos;
 
 namespace Tgs.GameWagers.Stat.Check.Messages;
 
-public class StatDataCheckMessageHandler(
-	ILogger<StatDataCheckMessageHandler> logger,
-	ICommandService<StatDataCheckCommand> service) : IMessageHandler<GameWagersStatCheckCheckDataMessage>
+public class StatCheckDataMessageHandler(
+	ILogger<StatCheckDataMessageHandler> logger,
+	ICommandService<StatCheckDataCommand> service) : IMessageHandler<GameWagersStatCheckCheckDataMessage>
 {
 	public ValueTask HandleAsync(string subject, GameWagersStatCheckCheckDataMessage data, IEnumerable<MessageHeaderValue>? headerValues, CancellationToken cancellationToken = default)
 	{
@@ -18,7 +20,7 @@ public class StatDataCheckMessageHandler(
 			data);
 
 		return service.ExecuteAsync(
-			command: new StatDataCheckCommand(
+			command: new StatCheckDataCommand(
 				PlayerCode: data.PlayerCode,
 				StatAt: data.StatAt.ToDateTimeOffset(),
 				StartAt: data.StartAt.ToDateTimeOffset(),

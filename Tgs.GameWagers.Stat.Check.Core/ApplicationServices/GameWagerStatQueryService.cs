@@ -3,6 +3,7 @@ using Tgs.GameWagers.Stat.Check.Core.Models;
 using Tgs.ServiceUtility;
 
 namespace Tgs.GameWagers.Stat.Check.Core.ApplicationServices;
+
 internal class GameWagerStatQueryService(
 	IStatisticalTimeUtnsil statisticalTimeUtnsil,
 	IGameWagerRepository repository) : IQueryService<GameWagerStatQuery, GameWagerStatResult>
@@ -11,9 +12,9 @@ internal class GameWagerStatQueryService(
 	{
 		(DateTimeOffset StartOn, DateTimeOffset EndOn) = statisticalTimeUtnsil.GetStatInterval(query.StartOn, query.EndOn);
 		var infos = await repository.QueryAsync(
-			playerCode: query.PlayerCode,
 			startOn: StartOn,
 			endOn: EndOn,
+			playerCode: query.PlayerCode,
 			cancellationToken: cancellationToken)
 			.ToArrayAsync(
 			cancellationToken: cancellationToken)

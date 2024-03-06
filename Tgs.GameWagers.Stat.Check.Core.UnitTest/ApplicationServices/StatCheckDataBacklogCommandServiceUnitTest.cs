@@ -7,7 +7,8 @@ using Tgs.VipLevels.Level.Common;
 using Valhalla.MessageQueue;
 
 namespace Tgs.GameWagers.Stat.Check.Core.UnitTest.ApplicationServices;
-public class StatDataCheckBacklogCommandServiceUnitTest
+
+public class StatCheckDataBacklogCommandServiceUnitTest
 {
 	[Fact]
 	public async void Normal_Process()
@@ -15,7 +16,7 @@ public class StatDataCheckBacklogCommandServiceUnitTest
 		var fakeGameWagerRepository = Substitute.For<IGameWagerStatCheckDataBacklogRepository>();
 		var fakeMessageSender = Substitute.For<IMessageSender>();
 
-		var command = new StatDataCheckBacklogCommand(
+		var command = new StatCheckDataBacklogCommand(
 			TriggerAt: new DateTimeOffset(2024, 02, 27, 16, 34, 38, 00, TimeSpan.FromHours(8)));
 
 		var infos = new GameWagerStatCheckDataBacklogInfo[] {new(
@@ -34,7 +35,7 @@ public class StatDataCheckBacklogCommandServiceUnitTest
 			cancellationToken: Arg.Any<CancellationToken>())
 			.Returns(infos.ToAsyncEnumerable(), Enumerable.Empty<GameWagerStatCheckDataBacklogInfo>().ToAsyncEnumerable());
 
-		var sut = new StatDataCheckBacklogCommandService(
+		var sut = new StatCheckDataBacklogCommandService(
 			fakeGameWagerRepository,
 			fakeMessageSender);
 
@@ -43,7 +44,7 @@ public class StatDataCheckBacklogCommandServiceUnitTest
 		_ = fakeMessageSender
 			.Received(1)
 			.PublishAsync(
-			subject: Arg.Is(GameWagersStatCheckNatsConst.StatDataCheck),
+			subject: Arg.Is(GameWagersStatCheckNatsConst.StatCheckData),
 			data: Arg.Is(new GameWagersStatCheckCheckDataMessage
 			{
 				PlayerCode = infos.First().PlayerCode,
@@ -51,7 +52,6 @@ public class StatDataCheckBacklogCommandServiceUnitTest
 				StartAt = infos.First().StartAt.ToTimestamp(),
 				EndAt = infos.First().EndAt.ToTimestamp(),
 				TriggerAt = infos.First().TriggerAt.ToTimestamp(),
-
 			}),
 			cancellationToken: Arg.Any<CancellationToken>());
 

@@ -8,7 +8,6 @@ namespace Tgs.GameWagers.Stat.Check.Controllers;
 [Route("[controller]")]
 public class GameWagerController : ControllerBase
 {
-
 	[HttpGet("{playerCode}", Name = "GetWeatherForecast")]
 	public IAsyncEnumerable<GameWagerStatResult> QueryAsync(
 		[FromServices] IQueryService<GameWagerStatQuery, GameWagerStatResult> service,
@@ -21,5 +20,4 @@ public class GameWagerController : ControllerBase
 			StartOn: startOn,
 			EndOn: endOn),
 		cancellationToken: HttpContext.RequestAborted);
-
 }

@@ -1,8 +1,9 @@
-﻿using Tgs.ServiceUtility;
+﻿using Tgs.GameWagers.Stat.Check.Core.ApplicationServices;
+using Tgs.GameWagers.Stat.Worker.Common.Protos;
+
+using Tgs.ServiceUtility;
 
 using Valhalla.MessageQueue;
-using Tgs.GameWagers.Stat.Check.Core.ApplicationServices;
-using Tgs.GameWagers.Stat.Worker.Common.Protos;
 
 namespace Tgs.GameWagers.Stat.Check.Messages;
 

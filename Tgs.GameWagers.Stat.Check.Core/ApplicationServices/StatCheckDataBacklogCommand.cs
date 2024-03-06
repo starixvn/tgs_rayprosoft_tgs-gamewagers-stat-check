@@ -1,3 +1,3 @@
 ﻿namespace Tgs.GameWagers.Stat.Check.Core.ApplicationServices;
-public record StatDataCheckBacklogCommand(
+public record StatCheckDataBacklogCommand(
 	DateTimeOffset TriggerAt);

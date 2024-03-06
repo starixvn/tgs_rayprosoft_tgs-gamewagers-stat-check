@@ -1,4 +1,5 @@
 ﻿namespace Tgs.GameWagers.Stat.Check.Core.UnitTest;
+
 public class StatisticalTimeUtnsilUnitTest
 {
 	[Fact]

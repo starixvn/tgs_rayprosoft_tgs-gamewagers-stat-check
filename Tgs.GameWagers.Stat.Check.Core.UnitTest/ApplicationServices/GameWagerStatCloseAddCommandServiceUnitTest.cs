@@ -1,14 +1,16 @@
 ﻿using Google.Protobuf.WellKnownTypes;
-using NSubstitute;
-using Tgs.GameWagers.Stat.Check.Core.ApplicationServices;
-using Tgs.GameWagers.Stat.Check.Core.Models;
-using Tgs.GameWagers.Stat.Hourly.Common.Protos;
-using Tgs.GameWagers.Stat.Hourly.Common;
-using Valhalla.MessageQueue;
-using NSubstitute.ReceivedExtensions;
 using Microsoft.Extensions.Logging.Abstractions;
 
+using NSubstitute;
+using NSubstitute.ReceivedExtensions;
+using Tgs.GameWagers.Stat.Check.Core.ApplicationServices;
+using Tgs.GameWagers.Stat.Check.Core.Models;
+using Tgs.GameWagers.Stat.Hourly.Common;
+using Tgs.GameWagers.Stat.Hourly.Common.Protos;
+using Valhalla.MessageQueue;
+
 namespace Tgs.GameWagers.Stat.Check.Core.UnitTest.ApplicationServices;
+
 public class GameWagerStatCloseAddCommandServiceUnitTest
 {
 	[Fact]
@@ -92,6 +94,5 @@ public class GameWagerStatCloseAddCommandServiceUnitTest
 				EndOn = command.StatOn.AddMinutes(+5).ToTimestamp()
 			}),
 			cancellationToken: Arg.Any<CancellationToken>());
-
 	}
 }

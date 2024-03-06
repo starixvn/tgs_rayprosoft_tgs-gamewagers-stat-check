@@ -1,10 +1,9 @@
 ﻿using System.Runtime.InteropServices;
 using Hangfire;
+using Hangfire.Dashboard.Management.Pages;
+
 using Microsoft.Extensions.Logging;
 using Tgs.ServiceUtility;
-using Tgs.GameWagers.Stat.Check.Core;
-using Tgs.GameWagers.Stat.Check.Core.JobApplicationServices;
-using Hangfire.Dashboard.Management.Pages;
 
 namespace Tgs.GameWagers.Stat.Check.Core.JobApplicationServices;
 
@@ -35,7 +34,6 @@ internal class JobInitCommandService : ICommandService<JobInitCommand>
 
 		try
 		{
-
 			var jobExecuteCommand = new JobExecuteCommand();
 
 			RecurringJob.AddOrUpdate<IHangfireUtensil>(
@@ -43,7 +41,11 @@ internal class JobInitCommandService : ICommandService<JobInitCommand>
 				methodCall: service => service.JobExecuteAsync(new JobExecuteCommand()),
 				cronExpression: Cron.Minutely(),
 				options: _recurringJobOptions);
-
+			RecurringJob.AddOrUpdate<IHangfireUtensil>(
+				recurringJobId: "Game Wagers Stat Check Hourly Data",
+				methodCall: service => service.JobExecuteAsync(new JobExecuteStatCheckHourlyCommand()),
+				cronExpression: "45 * * * *",
+				options: _recurringJobOptions);
 		}
 		catch (Exception ex)
 		{

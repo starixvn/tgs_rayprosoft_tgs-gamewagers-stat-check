@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NSubstitute;
+﻿using NSubstitute;
 using Tgs.GameWagers.Stat.Check.Common.Protos;
 using Tgs.GameWagers.Stat.Check.Core.ApplicationServices;
 using Tgs.GameWagers.Stat.Check.Core.Models;
@@ -11,7 +6,8 @@ using Tgs.VipLevels.Level.Common;
 using Valhalla.MessageQueue;
 
 namespace Tgs.GameWagers.Stat.Check.Core.UnitTest.ApplicationServices;
-public class StatWorkerCheckCommandServiceUnitTest
+
+public class StatCheckWorkerBacklogCommandServiceUnitTest
 {
 	[Fact]
 	public async void Normal_Process()
@@ -19,7 +15,7 @@ public class StatWorkerCheckCommandServiceUnitTest
 		var fakeRepository = Substitute.For<IGameWagerStatCheckWorkerBacklogRepository>();
 		var fakeMessageSender = Substitute.For<IMessageSender>();
 
-		var command = new StatWorkerCheckBacklogCommand(
+		var command = new StatCheckWorkerBacklogCommand(
 			TriggerAt: new DateTimeOffset(2024, 02, 27, 16, 34, 38, 00, TimeSpan.FromHours(8)));
 
 		var infos = new GameWagerStatCheckWorkerBacklogInfo[] {new(
@@ -35,7 +31,7 @@ public class StatWorkerCheckCommandServiceUnitTest
 			cancellationToken: Arg.Any<CancellationToken>())
 			.Returns(infos.ToAsyncEnumerable(), Enumerable.Empty<GameWagerStatCheckWorkerBacklogInfo>().ToAsyncEnumerable());
 
-		var sut = new StatWorkerCheckBacklogCommandService(
+		var sut = new StatCheckWorkerBacklogCommandService(
 			fakeRepository,
 			fakeMessageSender);
 
@@ -44,11 +40,10 @@ public class StatWorkerCheckCommandServiceUnitTest
 		_ = fakeMessageSender
 			.Received(1)
 			.PublishAsync(
-			subject: Arg.Is(GameWagersStatCheckNatsConst.StatWorkerCheck),
+			subject: Arg.Is(GameWagersStatCheckNatsConst.StatCheckWorker),
 			data: Arg.Is(new GameWagersStatCheckCheckWorkerMessage
 			{
 				PlayerCode = infos.First().PlayerCode
-
 			}),
 			cancellationToken: Arg.Any<CancellationToken>());
 

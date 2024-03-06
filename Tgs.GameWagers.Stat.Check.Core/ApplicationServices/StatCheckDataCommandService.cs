@@ -4,19 +4,20 @@ using Tgs.GameWagers.Stat.Check.Core.Models;
 using Tgs.ServiceUtility;
 
 namespace Tgs.GameWagers.Stat.Check.Core.ApplicationServices;
-internal class StatDataCheckCommandService(
-	ILogger<StatDataCheckCommandService> logger,
+
+internal class StatCheckDataCommandService(
+	ILogger<StatCheckDataCommandService> logger,
 	IGameWagerRepository gameWagerRepository,
 	IGameWagerStatCloseRepository gameWagerStatCloseRepository,
 	ICommandService<GameWagerStatCloseAddCommand> addService,
-	ICommandService<GameWagerStatCloseUpdateCommand> updateService) : ICommandService<StatDataCheckCommand>
+	ICommandService<GameWagerStatCloseUpdateCommand> updateService) : ICommandService<StatCheckDataCommand>
 {
-	public async ValueTask ExecuteAsync(StatDataCheckCommand command, CancellationToken cancellationToken = default)
+	public async ValueTask ExecuteAsync(StatCheckDataCommand command, CancellationToken cancellationToken = default)
 	{
 		var gameWagerStatInfos = await gameWagerRepository.QueryAsync(
-			command.PlayerCode,
 			command.StartAt,
 			command.EndAt,
+			command.PlayerCode,
 			cancellationToken: cancellationToken)
 			.ToArrayAsync(
 			cancellationToken: cancellationToken)

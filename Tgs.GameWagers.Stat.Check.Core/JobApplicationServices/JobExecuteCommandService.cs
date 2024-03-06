@@ -1,9 +1,10 @@
 ﻿using Google.Protobuf.WellKnownTypes;
 using Microsoft.Extensions.Logging;
+using Tgs.GameWagers.Stat.Check.Common.Protos;
+
 using Tgs.ServiceUtility;
 using Tgs.VipLevels.Level.Common;
 using Valhalla.MessageQueue;
-using Tgs.GameWagers.Stat.Check.Common.Protos;
 
 namespace Tgs.GameWagers.Stat.Check.Core.JobApplicationServices;
 
@@ -14,7 +15,6 @@ internal class JobExecuteCommandService(
 {
 	public ValueTask ExecuteAsync(JobExecuteCommand command, CancellationToken cancellationToken = default)
 	{
-
 		var message = new GameWagersStatCheckTriggerMessage
 		{
 			TriggerAt = timeProvider.GetUtcNow().ToTimestamp()

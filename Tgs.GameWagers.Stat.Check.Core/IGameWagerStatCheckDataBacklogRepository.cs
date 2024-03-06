@@ -1,6 +1,7 @@
 ﻿using Tgs.GameWagers.Stat.Check.Core.Models;
 
 namespace Tgs.GameWagers.Stat.Check.Core;
+
 public interface IGameWagerStatCheckDataBacklogRepository
 {
 	ValueTask AddAsync(string playerCode, DateTimeOffset statAt, DateTimeOffset startAt, DateTimeOffset endAt, DateTimeOffset triggerAt, CancellationToken cancellationToken = default);

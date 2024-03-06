@@ -1,6 +1,7 @@
 ﻿using Tgs.GameWagers.Stat.Check.Core.Models;
 
 namespace Tgs.GameWagers.Stat.Check.Core;
+
 public interface IGameWagerStatCloseRepository
 {
 	public ValueTask<GameWagerStatCloseInfo?> GetAsync(string playerCode, Guid gameProviderId, int gameId, DateTimeOffset statOn, CancellationToken cancellationToken = default);
