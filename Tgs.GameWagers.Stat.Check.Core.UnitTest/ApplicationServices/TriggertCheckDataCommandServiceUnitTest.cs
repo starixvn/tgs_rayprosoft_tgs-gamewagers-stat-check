@@ -35,7 +35,7 @@ public class TriggertCheckDataCommandServiceUnitTest
 			statAt: Arg.Is(statOn),
 			startAt: Arg.Is(statOn),
 			endAt: Arg.Is(statOn.AddMinutes(5)),
-			triggerAt: Arg.Is(statOn.AddHours(1)),
+			triggerAt: Arg.Is(statOn.AddMinutes(30)),
 			cancellationToken: Arg.Any<CancellationToken>());
 	}
 }
