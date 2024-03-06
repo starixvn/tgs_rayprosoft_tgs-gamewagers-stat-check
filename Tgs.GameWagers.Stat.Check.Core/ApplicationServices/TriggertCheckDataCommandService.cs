@@ -16,7 +16,7 @@ internal class TriggertCheckDataCommandService(
 			statAt: statOn,
 			startAt: statOn,
 			endAt: statOn.AddMinutes(+5),
-			triggerAt: statOn.AddHours(1),
+			triggerAt: statOn.AddMinutes(30),
 			cancellationToken: cancellationToken);
 	}
 }
