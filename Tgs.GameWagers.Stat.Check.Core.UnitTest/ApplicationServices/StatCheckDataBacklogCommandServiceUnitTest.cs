@@ -3,8 +3,8 @@ using NSubstitute;
 using Tgs.GameWagers.Stat.Check.Common.Protos;
 using Tgs.GameWagers.Stat.Check.Core.ApplicationServices;
 using Tgs.GameWagers.Stat.Check.Core.Models;
-using Tgs.VipLevels.Level.Common;
 using Valhalla.MessageQueue;
+using Tgs.GameWagers.Stat.Check.Common;
 
 namespace Tgs.GameWagers.Stat.Check.Core.UnitTest.ApplicationServices;
 

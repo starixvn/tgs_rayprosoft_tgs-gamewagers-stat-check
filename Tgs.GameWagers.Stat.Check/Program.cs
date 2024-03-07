@@ -15,7 +15,7 @@ using Tgs.GameWagers.Stat.Check.Messages;
 using Tgs.GameWagers.Stat.Hourly.Common;
 using Tgs.GameWagers.Stat.Worker.Common;
 using Tgs.MessageQueue.Nats.Serializers;
-using Tgs.VipLevels.Level.Common;
+using Tgs.GameWagers.Stat.Check.Common;
 
 var filterInstrumentations = new[] { "html", "ico", "png", "jpg" };
 

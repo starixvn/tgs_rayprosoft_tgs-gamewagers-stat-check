@@ -2,8 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Tgs.GameWagers.Stat.Check.Common.Protos;
 using Tgs.GameWagers.Stat.Check.ModelViews;
-using Tgs.VipLevels.Level.Common;
 using Valhalla.MessageQueue;
+using Tgs.GameWagers.Stat.Check.Common;
 
 namespace Tgs.GameWagers.Stat.Check.Controllers;
 [Route("stat-check-hourly-data")]

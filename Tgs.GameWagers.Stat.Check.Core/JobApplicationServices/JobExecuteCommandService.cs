@@ -3,8 +3,8 @@ using Microsoft.Extensions.Logging;
 using Tgs.GameWagers.Stat.Check.Common.Protos;
 
 using Tgs.ServiceUtility;
-using Tgs.VipLevels.Level.Common;
 using Valhalla.MessageQueue;
+using Tgs.GameWagers.Stat.Check.Common;
 
 namespace Tgs.GameWagers.Stat.Check.Core.JobApplicationServices;
 

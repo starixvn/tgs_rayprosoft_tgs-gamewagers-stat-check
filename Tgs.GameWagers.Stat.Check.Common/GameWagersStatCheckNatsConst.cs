@@ -1,4 +1,4 @@
-﻿namespace Tgs.VipLevels.Level.Common;
+﻿namespace Tgs.GameWagers.Stat.Check.Common;
 
 public class GameWagersStatCheckNatsConst
 {
