@@ -16,8 +16,9 @@ internal class JobExecuteStatCheckHourlyCommandService(
 	public ValueTask ExecuteAsync(JobExecuteStatCheckHourlyCommand command, CancellationToken cancellationToken = default)
 	{
 		var currentTime = timeProvider.GetUtcNow();
-		var startAt = new DateTimeOffset(currentTime.Year, currentTime.Month, currentTime.Day, currentTime.Hour - 1, 00, 00, currentTime.Offset);
+
 		var endAt = new DateTimeOffset(currentTime.Year, currentTime.Month, currentTime.Day, currentTime.Hour, 00, 00, currentTime.Offset);
+		var startAt = endAt.AddHours(-1);
 
 		var message = new GameWagersStatCheckDataHourlyMessage
 		{
