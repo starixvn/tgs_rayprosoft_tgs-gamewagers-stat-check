@@ -57,7 +57,7 @@ public class StatCheckDataBacklogCommandServiceUnitTest
 
 		_ = fakeGameWagerRepository
 			.Received(1)
-			.UpdateExpireAtAsync(
+			.DeleteAsync(
 			Arg.Is(infos.First().PlayerCode),
 			Arg.Is(infos.First().StatAt),
 			Arg.Is(infos.First().StartAt),

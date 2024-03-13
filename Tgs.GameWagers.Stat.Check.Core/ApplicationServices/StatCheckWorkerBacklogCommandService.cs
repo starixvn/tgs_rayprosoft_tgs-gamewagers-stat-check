@@ -39,9 +39,9 @@ internal class StatCheckWorkerBacklogCommandService(
 					cancellationToken: cancellationToken)
 					.ConfigureAwait(false);
 
-				await repository.UpdateExpireAtAsync(
+				await repository.DeleteAsync(
 					playerCode: info.PlayerCode,
-					triggerAt: info.TriggerAt.AddMinutes(+5),
+					triggerAt: info.TriggerAt,
 					cancellationToken: cancellationToken)
 					.ConfigureAwait(false);
 			}

@@ -49,9 +49,9 @@ public class StatCheckWorkerBacklogCommandServiceUnitTest
 
 		_ = fakeRepository
 			.Received(1)
-			.UpdateExpireAtAsync(
+			.DeleteAsync(
 			Arg.Is(infos.First().PlayerCode),
-			Arg.Is(infos.First().TriggerAt.AddMinutes(+5)),
+			Arg.Is(infos.First().TriggerAt),
 			cancellationToken: Arg.Any<CancellationToken>());
 	}
 }

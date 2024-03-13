@@ -52,6 +52,31 @@ internal class GameWagerStatCheckWorkerBacklogRepository(
 			.ConfigureAwait(false);
 	}
 
+	public async ValueTask DeleteAsync(string playerCode, DateTimeOffset triggerAt, CancellationToken cancellationToken = default)
+	{
+		var collection = await GetCollectionAsync(cancellationToken).ConfigureAwait(false);
+
+		var filter = Builders<GameWagerStatCheckWorkerBacklog>.Filter.Eq(x => x.PlayerCode, playerCode);
+
+		var retryPolicy = Policy
+		   .Handle<MongoBulkWriteException>()
+		   .WaitAndRetryAsync(
+			retryCount: 3,
+			retryAttempt => TimeSpan.FromSeconds(5),
+			(result, retryTime, context) => logger.LogWarning("LogOn:{logOn}  PlayerCode:{playerCode} TriggerAt:{triggerAt} Result:{result} Delay:{retryTime}",
+				DateTime.Now.ToString("o"),
+				playerCode,
+				triggerAt,
+				result,
+				retryTime));
+
+		_ = await retryPolicy.ExecuteAsync(
+			() => collection.DeleteOneAsync(
+				filter: filter,
+				cancellationToken: cancellationToken))
+			.ConfigureAwait(false);
+	}
+
 	public async IAsyncEnumerable<GameWagerStatCheckWorkerBacklogInfo> QueryAsync(DateTimeOffset endOn, int offset = 0, int limit = 20, [EnumeratorCancellation] CancellationToken cancellationToken = default)
 	{
 		var collection = await GetCollectionAsync(cancellationToken).ConfigureAwait(false);
@@ -65,7 +90,7 @@ internal class GameWagerStatCheckWorkerBacklogRepository(
 		var options = new FindOptions<GameWagerStatCheckWorkerBacklog>
 		{
 			Sort = sort,
-			Skip = offset,
+			Skip = offset * limit,
 			Limit = limit,
 		};
 

@@ -44,7 +44,7 @@ internal class StatCheckDataBacklogCommandService(
 					cancellationToken: cancellationToken)
 					.ConfigureAwait(false);
 
-				await repository.UpdateExpireAtAsync(
+				await repository.DeleteAsync(
 					playerCode: info.PlayerCode,
 					statAt: info.StatAt,
 					startAt: info.StartAt,
