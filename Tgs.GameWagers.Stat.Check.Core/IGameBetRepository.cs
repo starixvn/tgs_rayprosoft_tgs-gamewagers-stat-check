@@ -1,8 +1,7 @@
 ﻿using Tgs.GameWagers.Stat.Check.Core.Models;
 
 namespace Tgs.GameWagers.Stat.Check.Core;
-
-public interface IGameWagerRepository
+public interface IGameBetRepository
 {
 	IAsyncEnumerable<GameWagerStatInfo> QueryAsync(DateTimeOffset startOn, DateTimeOffset endOn, string playerCode, CancellationToken cancellationToken = default);
 

@@ -15,15 +15,21 @@ internal class JobExecuteCommandService(
 {
 	public ValueTask ExecuteAsync(JobExecuteCommand command, CancellationToken cancellationToken = default)
 	{
-		var message = new GameWagersStatCheckTriggerMessage
+		var currentTime = timeProvider.GetUtcNow();
+
+		var endAt = new DateTimeOffset(currentTime.Year, currentTime.Month, currentTime.Day, currentTime.Hour, 00, 00, currentTime.Offset);
+		var startAt = endAt.AddHours(-1);
+
+		var message = new GameWagersStatCheckDataHourlyMessage
 		{
-			TriggerAt = timeProvider.GetUtcNow().ToTimestamp()
+			StartAt = startAt.ToTimestamp(),
+			EndAt = endAt.ToTimestamp()
 		};
 
 		logger.LogInformation("LogOn:{logOn} Publish Message:{message}", DateTime.Now.ToString("u"), message);
 
 		return messageSender.PublishAsync(
-			subject: GameWagersStatCheckNatsConst.StatBacklog,
+			subject: GameWagersStatCheckNatsConst.StatCheckHourlyData,
 			data: message,
 			cancellationToken: cancellationToken);
 	}

@@ -16,7 +16,7 @@ public partial class TgsContext : DbContext
 
     public virtual DbSet<Brand> Brands { get; set; }
 
-    public virtual DbSet<GameWager> GameWagers { get; set; }
+    public virtual DbSet<GameBet> GameBets { get; set; }
 
     public virtual DbSet<GameWagerStatClose> GameWagerStatCloses { get; set; }
 
@@ -34,7 +34,7 @@ public partial class TgsContext : DbContext
             .HasPostgresExtension("uuid-ossp");
 
         modelBuilder.ApplyConfiguration(new Configurations.BrandConfiguration());
-        modelBuilder.ApplyConfiguration(new Configurations.GameWagerConfiguration());
+        modelBuilder.ApplyConfiguration(new Configurations.GameBetConfiguration());
         modelBuilder.ApplyConfiguration(new Configurations.GameWagerStatCloseConfiguration());
         modelBuilder.ApplyConfiguration(new Configurations.LicenseeConfiguration());
         modelBuilder.ApplyConfiguration(new Configurations.ResellerConfiguration());

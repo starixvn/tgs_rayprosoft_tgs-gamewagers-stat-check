@@ -16,8 +16,7 @@ public static class ServiceCollectionExtensions
 {
 	public static IServiceCollection AddGameWagersStatCheckRepositories(
 		this IServiceCollection services,
-		Action<IServiceProvider, DbContextOptionsBuilder> dbContextOptions,
-		Func<IServiceProvider, IMongoDatabase> mongoDatabaseResolver)
+		Action<IServiceProvider, DbContextOptionsBuilder> dbContextOptions)
 	{
 		_ = services
 			.AddDbContext<TgsContext>(dbContextOptions)
@@ -27,10 +26,8 @@ public static class ServiceCollectionExtensions
 				return (NpgsqlConnection)context.Database.GetDbConnection();
 			})
 			.AddTransient<IBrandRepository, BrandRepository>()
-			.AddTransient<IGameWagerRepository, GameWagerRepository>()
-			.AddTransient<IGameWagerStatCloseRepository, GameWagerStatCloseRepository>()
-			.AddTransient<IGameWagerStatCheckWorkerBacklogRepository>((sp) => ActivatorUtilities.CreateInstance<GameWagerStatCheckWorkerBacklogRepository>(sp, mongoDatabaseResolver(sp)))
-			.AddTransient<IGameWagerStatCheckDataBacklogRepository>((sp) => ActivatorUtilities.CreateInstance<GameWagerStatCheckDataBacklogRepository>(sp, mongoDatabaseResolver(sp)));
+			.AddTransient<IGameBetRepository, GameBetRepository>()
+			.AddTransient<IGameWagerStatCloseRepository, GameWagerStatCloseRepository>();
 
 		SqlMapper.SetTypeMap(typeof(GameWagerStatInfo), new ColumnTypeMapper(typeof(GameWagerStatInfo)));
 		return services;

@@ -12,7 +12,7 @@ public class StatCheckHourlyDataCommandServiceUnitTest
 	public async void This_new_game_wager_stat_close_information()
 	{
 		var fakeLog = NullLogger<StatCheckHourlyDataCommandService>.Instance;
-		var fakeGameWagerRepository = Substitute.For<IGameWagerRepository>();
+		var fakeGameBetRepository = Substitute.For<IGameBetRepository>();
 		var fakeGameWagerStatCloseRepository = Substitute.For<IGameWagerStatCloseRepository>();
 		var fakeAddService = Substitute.For<ICommandService<GameWagerStatCloseAddCommand>>();
 		var fakeUpdateService = Substitute.For<ICommandService<GameWagerStatCloseUpdateCommand>>();
@@ -41,7 +41,7 @@ public class StatCheckHourlyDataCommandServiceUnitTest
 			}
 		};
 
-		_ = fakeGameWagerRepository.QueryAsync(
+		_ = fakeGameBetRepository.QueryAsync(
 			startOn: Arg.Is(command.StartAt),
 			endOn: Arg.Is(command.EndAt),
 			offset: Arg.Any<int>(),
@@ -59,7 +59,7 @@ public class StatCheckHourlyDataCommandServiceUnitTest
 
 		var sut = new StatCheckHourlyDataCommandService(
 			fakeLog,
-			fakeGameWagerRepository,
+			fakeGameBetRepository,
 			fakeGameWagerStatCloseRepository,
 			fakeAddService,
 			fakeUpdateService);
@@ -83,7 +83,7 @@ public class StatCheckHourlyDataCommandServiceUnitTest
 	public async void This_updates_game_wager_stat_close_information()
 	{
 		var fakeLog = NullLogger<StatCheckHourlyDataCommandService>.Instance;
-		var fakeGameWagerRepository = Substitute.For<IGameWagerRepository>();
+		var fakeGameBetRepository = Substitute.For<IGameBetRepository>();
 		var fakeGameWagerStatCloseRepository = Substitute.For<IGameWagerStatCloseRepository>();
 		var fakeAddService = Substitute.For<ICommandService<GameWagerStatCloseAddCommand>>();
 		var fakeUpdateService = Substitute.For<ICommandService<GameWagerStatCloseUpdateCommand>>();
@@ -112,7 +112,7 @@ public class StatCheckHourlyDataCommandServiceUnitTest
 			}
 		};
 
-		_ = fakeGameWagerRepository.QueryAsync(
+		_ = fakeGameBetRepository.QueryAsync(
 			startOn: Arg.Is(command.StartAt),
 			endOn: Arg.Is(command.EndAt),
 			offset: Arg.Any<int>(),
@@ -144,7 +144,7 @@ public class StatCheckHourlyDataCommandServiceUnitTest
 
 		var sut = new StatCheckHourlyDataCommandService(
 			fakeLog,
-			fakeGameWagerRepository,
+			fakeGameBetRepository,
 			fakeGameWagerStatCloseRepository,
 			fakeAddService,
 			fakeUpdateService);
@@ -168,7 +168,7 @@ public class StatCheckHourlyDataCommandServiceUnitTest
 	public async void No_changes()
 	{
 		var fakeLog = NullLogger<StatCheckHourlyDataCommandService>.Instance;
-		var fakeGameWagerRepository = Substitute.For<IGameWagerRepository>();
+		var fakeGameBetRepository = Substitute.For<IGameBetRepository>();
 		var fakeGameWagerStatCloseRepository = Substitute.For<IGameWagerStatCloseRepository>();
 		var fakeAddService = Substitute.For<ICommandService<GameWagerStatCloseAddCommand>>();
 		var fakeUpdateService = Substitute.For<ICommandService<GameWagerStatCloseUpdateCommand>>();
@@ -197,7 +197,7 @@ public class StatCheckHourlyDataCommandServiceUnitTest
 			}
 		};
 
-		_ = fakeGameWagerRepository.QueryAsync(
+		_ = fakeGameBetRepository.QueryAsync(
 			startOn: Arg.Is(command.StartAt),
 			endOn: Arg.Is(command.EndAt),
 			cancellationToken: Arg.Any<CancellationToken>())
@@ -228,7 +228,7 @@ public class StatCheckHourlyDataCommandServiceUnitTest
 
 		var sut = new StatCheckHourlyDataCommandService(
 			fakeLog,
-			fakeGameWagerRepository,
+			fakeGameBetRepository,
 			fakeGameWagerStatCloseRepository,
 			fakeAddService,
 			fakeUpdateService);

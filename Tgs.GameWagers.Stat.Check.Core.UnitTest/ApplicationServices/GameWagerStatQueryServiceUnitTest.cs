@@ -11,7 +11,7 @@ public class GameWagerStatQueryServiceUnitTest
 	public async void Normal_Process()
 	{
 		var fakeStatisticalTimeUtnsil = Substitute.For<IStatisticalTimeUtnsil>();
-		var fakeGameWagerRepository = Substitute.For<IGameWagerRepository>();
+		var fakeGameBetRepository = Substitute.For<IGameBetRepository>();
 
 		var query = new GameWagerStatQuery(
 			PlayerCode: "4ucmqplxb029",
@@ -46,7 +46,7 @@ public class GameWagerStatQueryServiceUnitTest
 				WinLoss=-500.00m
 			}
 		};
-		_ = fakeGameWagerRepository.QueryAsync(
+		_ = fakeGameBetRepository.QueryAsync(
 			startOn: Arg.Is(StartOn),
 			endOn: Arg.Is(EndOn),
 			playerCode: Arg.Is(query.PlayerCode),
@@ -54,7 +54,7 @@ public class GameWagerStatQueryServiceUnitTest
 			.Returns(gameWagerStatInfo.ToAsyncEnumerable());
 		var sut = new GameWagerStatQueryService(
 			fakeStatisticalTimeUtnsil,
-			fakeGameWagerRepository);
+			fakeGameBetRepository);
 
 		var actual = await sut.QueryAsync(query)
 			.ToArrayAsync()

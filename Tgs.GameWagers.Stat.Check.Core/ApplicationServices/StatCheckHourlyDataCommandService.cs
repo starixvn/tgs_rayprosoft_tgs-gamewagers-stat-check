@@ -7,7 +7,7 @@ namespace Tgs.GameWagers.Stat.Check.Core.ApplicationServices;
 
 internal class StatCheckHourlyDataCommandService(
 	ILogger<StatCheckHourlyDataCommandService> logger,
-	IGameWagerRepository gameWagerRepository,
+	IGameBetRepository gameBetRepository,
 	IGameWagerStatCloseRepository gameWagerStatCloseRepository,
 	ICommandService<GameWagerStatCloseAddCommand> addService,
 	ICommandService<GameWagerStatCloseUpdateCommand> updateService) : ICommandService<StatCheckHourlyDataCommand>
@@ -24,7 +24,7 @@ internal class StatCheckHourlyDataCommandService(
 		IEnumerable<GameWagerStatInfo> gameWagerStatInfos;
 		do
 		{
-			gameWagerStatInfos = await gameWagerRepository.QueryAsync(
+			gameWagerStatInfos = await gameBetRepository.QueryAsync(
 			   startOn: command.StartAt,
 			   endOn: command.EndAt,
 			   offset: offset,

@@ -10,15 +10,15 @@ using Tgs.GameWagers.Stat.Check.Core;
 using Tgs.GameWagers.Stat.Check.Core.Models;
 
 namespace Tgs.GameWagers.Stat.Check.Repositories;
-internal class GameWagerRepository(
+internal class GameBetRepository(
 	IDbConnection connection,
-	TimeProvider timeProvider) : IGameWagerRepository
+	TimeProvider timeProvider) : IGameBetRepository
 {
 	public async IAsyncEnumerable<GameWagerStatInfo> QueryAsync(DateTimeOffset startOn, DateTimeOffset endOn, string playerCode, [EnumeratorCancellation] CancellationToken cancellationToken = default)
 	{
 		DynamicParameters parameters = new DynamicParameters();
-		parameters.Add("@createdStartOn", timeProvider.GetUtcNow().AddMonths(-6).UtcDateTime, DbType.DateTimeOffset, ParameterDirection.Input);
-		parameters.Add("@createdEndOn", timeProvider.GetUtcNow().UtcDateTime, DbType.DateTimeOffset, ParameterDirection.Input);
+		parameters.Add("@externalCreatedStartOn", timeProvider.GetUtcNow().AddMonths(-6).UtcDateTime, DbType.DateTimeOffset, ParameterDirection.Input);
+		parameters.Add("@externalCreatedEndOn", timeProvider.GetUtcNow().UtcDateTime, DbType.DateTimeOffset, ParameterDirection.Input);
 		parameters.Add("@startOn", startOn.UtcDateTime, DbType.DateTimeOffset, ParameterDirection.Input);
 		parameters.Add("@endOn", endOn.UtcDateTime, DbType.DateTimeOffset, ParameterDirection.Input);
 		parameters.Add("@playerCode", playerCode, DbType.String, ParameterDirection.Input);
@@ -42,10 +42,10 @@ internal class GameWagerRepository(
 	        sum(x.turnover) as ""turnover"",
 	        sum(x.win_loss) as ""win_loss""
         from
-	        dbo.game_wagers x
+	        dbo.game_bets x
         where
-	        x.created_on >= @createdStartOn
-	        and x.created_on < @createdEndOn
+	        x.external_created_on >= @externalCreatedStartOn
+	        and x.external_created_on < @externalCreatedEndOn
 	        and x.closed_on >= @startOn
 	        and x.closed_on < @endOn
 	        and x.player_code = @playerCode
@@ -78,12 +78,12 @@ internal class GameWagerRepository(
 			yield return info;
 		}
 	}
-
 	public async IAsyncEnumerable<GameWagerStatInfo> QueryAsync(DateTimeOffset startOn, DateTimeOffset endOn, [EnumeratorCancellation] CancellationToken cancellationToken = default)
+
 	{
 		DynamicParameters parameters = new DynamicParameters();
-		parameters.Add("@createdStartOn", timeProvider.GetUtcNow().AddMonths(-6).UtcDateTime, DbType.DateTimeOffset, ParameterDirection.Input);
-		parameters.Add("@createdEndOn", timeProvider.GetUtcNow().UtcDateTime, DbType.DateTimeOffset, ParameterDirection.Input);
+		parameters.Add("@externalCreatedStartOn", timeProvider.GetUtcNow().AddMonths(-6).UtcDateTime, DbType.DateTimeOffset, ParameterDirection.Input);
+		parameters.Add("@externalCreatedEndOn", timeProvider.GetUtcNow().UtcDateTime, DbType.DateTimeOffset, ParameterDirection.Input);
 		parameters.Add("@startOn", startOn.UtcDateTime, DbType.DateTimeOffset, ParameterDirection.Input);
 		parameters.Add("@endOn", endOn.UtcDateTime, DbType.DateTimeOffset, ParameterDirection.Input);
 
@@ -106,10 +106,10 @@ internal class GameWagerRepository(
 	        sum(x.turnover) as ""turnover"",
 	        sum(x.win_loss) as ""win_loss""
         from
-	        dbo.game_wagers x
+	        dbo.game_bets x
         where
-	        x.created_on >= @createdStartOn
-	        and x.created_on < @createdEndOn
+	        x.external_created_on >= @externalCreatedStartOn
+	        and x.external_created_on < @externalCreatedEndOn
 	        and x.closed_on >= @startOn
 	        and x.closed_on < @endOn
         group by
@@ -141,12 +141,11 @@ internal class GameWagerRepository(
 			yield return info;
 		}
 	}
-
-	public async IAsyncEnumerable<GameWagerStatInfo> QueryAsync(DateTimeOffset startOn, DateTimeOffset endOn, int offset = 0, int limit = 20, [EnumeratorCancellation] CancellationToken cancellationToken = default)
+	public async IAsyncEnumerable<GameWagerStatInfo> QueryAsync(DateTimeOffset startOn, DateTimeOffset endOn, int offset = 0, int limit = 20,[EnumeratorCancellation] CancellationToken cancellationToken = default)
 	{
 		DynamicParameters parameters = new DynamicParameters();
-		parameters.Add("@createdStartOn", timeProvider.GetUtcNow().AddMonths(-6).UtcDateTime, DbType.DateTimeOffset, ParameterDirection.Input);
-		parameters.Add("@createdEndOn", timeProvider.GetUtcNow().UtcDateTime, DbType.DateTimeOffset, ParameterDirection.Input);
+		parameters.Add("@externalCreatedStartOn", timeProvider.GetUtcNow().AddMonths(-6).UtcDateTime, DbType.DateTimeOffset, ParameterDirection.Input);
+		parameters.Add("@externalCreatedEndOn", timeProvider.GetUtcNow().UtcDateTime, DbType.DateTimeOffset, ParameterDirection.Input);
 		parameters.Add("@startOn", startOn.UtcDateTime, DbType.DateTimeOffset, ParameterDirection.Input);
 		parameters.Add("@endOn", endOn.UtcDateTime, DbType.DateTimeOffset, ParameterDirection.Input);
 		parameters.Add("@offset", offset * limit, DbType.Int32, ParameterDirection.Input);
@@ -171,10 +170,10 @@ internal class GameWagerRepository(
 	        sum(x.turnover) as ""turnover"",
 	        sum(x.win_loss) as ""win_loss""
         from
-	        dbo.game_wagers x
+	        dbo.game_bets x
         where
-	        x.created_on >= @createdStartOn
-	        and x.created_on < @createdEndOn
+	        x.external_created_on >= @externalCreatedStartOn
+	        and x.external_created_on < @externalCreatedEndOn
 	        and x.closed_on >= @startOn
 	        and x.closed_on < @endOn
         group by

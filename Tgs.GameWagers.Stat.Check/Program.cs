@@ -9,11 +9,9 @@ using OpenTelemetry.Metrics;
 
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
-using Tgs.GameWagers.Firsts.Common;
 using Tgs.GameWagers.Stat.Check;
 using Tgs.GameWagers.Stat.Check.Messages;
 using Tgs.GameWagers.Stat.Hourly.Common;
-using Tgs.GameWagers.Stat.Worker.Common;
 using Tgs.MessageQueue.Nats.Serializers;
 using Tgs.GameWagers.Stat.Check.Common;
 
@@ -71,16 +69,6 @@ builder
 	.AddHangfireServer();
 
 builder.Services.AddGameWagersStatCheck(
-	(options, sp) =>
-	{
-		var configuration = sp.GetRequiredService<IConfiguration>();
-		options.ConnectionString = configuration.GetConnectionString("Redis")!;
-	},
-	(options, sp) =>
-	{
-		var configuration = sp.GetRequiredService<IConfiguration>();
-		options.ConnectionString = configuration.GetConnectionString("Mongo")!;
-	},
 	(sp, dbBuilder) =>
 	{
 		var config = sp.GetRequiredService<IConfiguration>();
@@ -96,19 +84,9 @@ builder.Services
 	.AddMessageQueue()
 	.AddNatsMessageQueue(config => config
 	.ConfigureResolveConnection(sp => sp.GetRequiredKeyedService<NatsConnection>("Nats"))
-	.AddHandler<TriggertCheckDataMessageHandler>(GameWagersFirstsNatsConst.GameWagersFirstsStatCheckPublish, typeof(TriggertCheckDataMessageHandler).FullName!.ToLower())
-	.AddHandler<TriggertCheckWorkerMessageHandler>(GameWagersFirstsNatsConst.GameWagersFirstsStatCheckPublish, typeof(TriggertCheckWorkerMessageHandler).FullName!.ToLower())
-	.AddHandler<StatCheckDataBacklogMessageHandler>(GameWagersStatCheckNatsConst.StatBacklog, typeof(StatCheckDataBacklogMessageHandler).FullName!.ToLower())
-	.AddHandler<StatCheckDataMessageHandler>(GameWagersStatCheckNatsConst.StatCheckData, typeof(StatCheckDataMessageHandler).FullName!.ToLower())
-	.AddHandler<StatCheckWorkerBacklogMessageHandler>(GameWagersStatCheckNatsConst.StatBacklog, typeof(StatCheckWorkerBacklogMessageHandler).FullName!.ToLower())
-	.AddHandler<StatCheckWorkerMessageHandler>(GameWagersStatCheckNatsConst.StatCheckWorker, typeof(StatCheckWorkerMessageHandler).FullName!.ToLower())
 	.AddHandler<StatCheckDataHourlyMessageHandler>(GameWagersStatCheckNatsConst.StatCheckHourlyData, typeof(StatCheckDataHourlyMessageHandler).FullName!.ToLower()))
 	.ClearAllExchanges()
-	.AddNatsGlobPatternExchange(GameWagersStatCheckNatsConst.StatBacklog)
-	.AddNatsGlobPatternExchange(GameWagersStatCheckNatsConst.StatCheckData)
 	.AddNatsGlobPatternExchange(GameWagersStatCheckNatsConst.StatCheckHourlyData)
-	.AddNatsGlobPatternExchange(GameWagersStatCheckNatsConst.StatCheckWorker)
-	.AddNatsGlobPatternExchange(GameWagersStatWorkerNatsConst.Check)
 	.AddNatsGlobPatternExchange(GameWagersStatHourlyNatsConst.StatHourlyClose);
 
 builder.Services

@@ -39,11 +39,6 @@ internal class JobInitCommandService : ICommandService<JobInitCommand>
 			RecurringJob.AddOrUpdate<IHangfireUtensil>(
 				recurringJobId: "Game Wagers Stat Check",
 				methodCall: service => service.JobExecuteAsync(new JobExecuteCommand()),
-				cronExpression: Cron.Minutely(),
-				options: _recurringJobOptions);
-			RecurringJob.AddOrUpdate<IHangfireUtensil>(
-				recurringJobId: "Game Wagers Stat Check Hourly Data",
-				methodCall: service => service.JobExecuteAsync(new JobExecuteStatCheckHourlyCommand()),
 				cronExpression: "45 * * * *",
 				options: _recurringJobOptions);
 		}
