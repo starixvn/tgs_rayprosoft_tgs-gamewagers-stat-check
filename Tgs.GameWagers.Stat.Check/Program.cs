@@ -13,6 +13,7 @@ using Tgs.GameWagers.Stat.Check;
 using Tgs.GameWagers.Stat.Check.Common;
 using Tgs.GameWagers.Stat.Check.Messages;
 using Tgs.GameWagers.Stat.Hourly.Common;
+using Tgs.GameWagers.Stat.Worker.Common;
 using Tgs.MessageQueue.Nats.Serializers;
 
 var filterInstrumentations = new[] { "html", "ico", "png", "jpg" };
@@ -107,7 +108,8 @@ builder.Services
 	.AddNatsGlobPatternExchange(GameWagersStatCheckNatsConst.StatCheckHourlyData)
 	.AddNatsGlobPatternExchange(GameWagersStatCheckNatsConst.StatCheckWorker)
 	.AddNatsGlobPatternExchange(GameBetsFirstWorkerNatsConst.GameBetsFirstWorkerVipLevelCheck)
-	.AddNatsGlobPatternExchange(GameWagersStatHourlyNatsConst.StatHourlyClose);
+	.AddNatsGlobPatternExchange(GameWagersStatHourlyNatsConst.StatHourlyClose)
+	.AddNatsGlobPatternExchange(GameWagersStatWorkerNatsConst.Check);
 
 builder.Services
 	.AddOpenTelemetry()
