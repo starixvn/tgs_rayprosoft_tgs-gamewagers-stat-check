@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
+﻿using System.Data;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using Dapper;
 using Tgs.GameWagers.Stat.Check.Core;
 using Tgs.GameWagers.Stat.Check.Core.Models;
 
 namespace Tgs.GameWagers.Stat.Check.Repositories;
+
 internal class GameBetRepository(
 	IDbConnection connection,
 	TimeProvider timeProvider) : IGameBetRepository
@@ -78,6 +74,7 @@ internal class GameBetRepository(
 			yield return info;
 		}
 	}
+
 	public async IAsyncEnumerable<GameWagerStatInfo> QueryAsync(DateTimeOffset startOn, DateTimeOffset endOn, [EnumeratorCancellation] CancellationToken cancellationToken = default)
 
 	{
@@ -141,7 +138,8 @@ internal class GameBetRepository(
 			yield return info;
 		}
 	}
-	public async IAsyncEnumerable<GameWagerStatInfo> QueryAsync(DateTimeOffset startOn, DateTimeOffset endOn, int offset = 0, int limit = 20,[EnumeratorCancellation] CancellationToken cancellationToken = default)
+
+	public async IAsyncEnumerable<GameWagerStatInfo> QueryAsync(DateTimeOffset startOn, DateTimeOffset endOn, int offset = 0, int limit = 20, [EnumeratorCancellation] CancellationToken cancellationToken = default)
 	{
 		DynamicParameters parameters = new DynamicParameters();
 		parameters.Add("@externalCreatedStartOn", timeProvider.GetUtcNow().AddMonths(-6).UtcDateTime, DbType.DateTimeOffset, ParameterDirection.Input);

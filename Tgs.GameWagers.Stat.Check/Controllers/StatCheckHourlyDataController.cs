@@ -1,11 +1,13 @@
 ﻿using Google.Protobuf.WellKnownTypes;
 using Microsoft.AspNetCore.Mvc;
+using Tgs.GameWagers.Stat.Check.Common;
+
 using Tgs.GameWagers.Stat.Check.Common.Protos;
 using Tgs.GameWagers.Stat.Check.ModelViews;
 using Valhalla.MessageQueue;
-using Tgs.GameWagers.Stat.Check.Common;
 
 namespace Tgs.GameWagers.Stat.Check.Controllers;
+
 [Route("stat-check-hourly-data")]
 [ApiController]
 public class StatCheckHourlyDataController : ControllerBase

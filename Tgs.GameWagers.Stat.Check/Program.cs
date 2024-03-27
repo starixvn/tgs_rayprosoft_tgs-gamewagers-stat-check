@@ -6,14 +6,14 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NATS.Client.Core;
 using OpenTelemetry.Metrics;
-
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
+using Tgs.GameBets.First.Worker.Common;
 using Tgs.GameWagers.Stat.Check;
+using Tgs.GameWagers.Stat.Check.Common;
 using Tgs.GameWagers.Stat.Check.Messages;
 using Tgs.GameWagers.Stat.Hourly.Common;
 using Tgs.MessageQueue.Nats.Serializers;
-using Tgs.GameWagers.Stat.Check.Common;
 
 var filterInstrumentations = new[] { "html", "ico", "png", "jpg" };
 
@@ -69,6 +69,16 @@ builder
 	.AddHangfireServer();
 
 builder.Services.AddGameWagersStatCheck(
+	(options, sp) =>
+	{
+		var configuration = sp.GetRequiredService<IConfiguration>();
+		options.ConnectionString = configuration.GetConnectionString("Redis")!;
+	},
+	(options, sp) =>
+	{
+		var configuration = sp.GetRequiredService<IConfiguration>();
+		options.ConnectionString = configuration.GetConnectionString("Mongo")!;
+	},
 	(sp, dbBuilder) =>
 	{
 		var config = sp.GetRequiredService<IConfiguration>();
@@ -84,9 +94,19 @@ builder.Services
 	.AddMessageQueue()
 	.AddNatsMessageQueue(config => config
 	.ConfigureResolveConnection(sp => sp.GetRequiredKeyedService<NatsConnection>("Nats"))
+	.AddHandler<TriggertCheckDataMessageHandler>(GameBetsFirstWorkerNatsConst.GameBetsFirstWorkerVipLevelCheck, typeof(TriggertCheckDataMessageHandler).FullName!.ToLower())
+	.AddHandler<TriggertCheckWorkerMessageHandler>(GameBetsFirstWorkerNatsConst.GameBetsFirstWorkerVipLevelCheck, typeof(TriggertCheckWorkerMessageHandler).FullName!.ToLower())
+	.AddHandler<StatCheckDataBacklogMessageHandler>(GameWagersStatCheckNatsConst.StatBacklog, typeof(StatCheckDataBacklogMessageHandler).FullName!.ToLower())
+	.AddHandler<StatCheckDataMessageHandler>(GameWagersStatCheckNatsConst.StatCheckData, typeof(StatCheckDataMessageHandler).FullName!.ToLower())
+	.AddHandler<StatCheckWorkerBacklogMessageHandler>(GameWagersStatCheckNatsConst.StatBacklog, typeof(StatCheckWorkerBacklogMessageHandler).FullName!.ToLower())
+	.AddHandler<StatCheckWorkerMessageHandler>(GameWagersStatCheckNatsConst.StatCheckWorker, typeof(StatCheckWorkerMessageHandler).FullName!.ToLower())
 	.AddHandler<StatCheckDataHourlyMessageHandler>(GameWagersStatCheckNatsConst.StatCheckHourlyData, typeof(StatCheckDataHourlyMessageHandler).FullName!.ToLower()))
 	.ClearAllExchanges()
+	.AddNatsGlobPatternExchange(GameWagersStatCheckNatsConst.StatBacklog)
+	.AddNatsGlobPatternExchange(GameWagersStatCheckNatsConst.StatCheckData)
 	.AddNatsGlobPatternExchange(GameWagersStatCheckNatsConst.StatCheckHourlyData)
+	.AddNatsGlobPatternExchange(GameWagersStatCheckNatsConst.StatCheckWorker)
+	.AddNatsGlobPatternExchange(GameBetsFirstWorkerNatsConst.GameBetsFirstWorkerVipLevelCheck)
 	.AddNatsGlobPatternExchange(GameWagersStatHourlyNatsConst.StatHourlyClose);
 
 builder.Services

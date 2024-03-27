@@ -1,10 +1,11 @@
 ﻿using Google.Protobuf.WellKnownTypes;
 using Microsoft.Extensions.Logging;
+using Tgs.GameWagers.Stat.Check.Common;
+
 using Tgs.GameWagers.Stat.Check.Common.Protos;
 
 using Tgs.ServiceUtility;
 using Valhalla.MessageQueue;
-using Tgs.GameWagers.Stat.Check.Common;
 
 namespace Tgs.GameWagers.Stat.Check.Core.JobApplicationServices;
 
@@ -15,21 +16,15 @@ internal class JobExecuteCommandService(
 {
 	public ValueTask ExecuteAsync(JobExecuteCommand command, CancellationToken cancellationToken = default)
 	{
-		var currentTime = timeProvider.GetUtcNow();
-
-		var endAt = new DateTimeOffset(currentTime.Year, currentTime.Month, currentTime.Day, currentTime.Hour, 00, 00, currentTime.Offset);
-		var startAt = endAt.AddHours(-1);
-
-		var message = new GameWagersStatCheckDataHourlyMessage
+		var message = new GameWagersStatCheckTriggerMessage
 		{
-			StartAt = startAt.ToTimestamp(),
-			EndAt = endAt.ToTimestamp()
+			TriggerAt = timeProvider.GetUtcNow().ToTimestamp()
 		};
 
 		logger.LogInformation("LogOn:{logOn} Publish Message:{message}", DateTime.Now.ToString("u"), message);
 
 		return messageSender.PublishAsync(
-			subject: GameWagersStatCheckNatsConst.StatCheckHourlyData,
+			subject: GameWagersStatCheckNatsConst.StatBacklog,
 			data: message,
 			cancellationToken: cancellationToken);
 	}
