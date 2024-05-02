@@ -8,7 +8,7 @@ namespace Tgs.GameWagers.Stat.Check.Core.UnitTest.ApplicationServices;
 public class GameWagerStatQueryServiceUnitTest
 {
 	[Fact]
-	public async void Normal_Process()
+	public async Task Normal_Process()
 	{
 		var fakeStatisticalTimeUtnsil = Substitute.For<IStatisticalTimeUtnsil>();
 		var fakeGameBetRepository = Substitute.For<IGameBetRepository>();

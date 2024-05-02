@@ -9,7 +9,7 @@ namespace Tgs.GameWagers.Stat.Check.Core.UnitTest.ApplicationServices;
 public class StatCheckWorkerCommandServiceUnitTest
 {
 	[Fact]
-	public async void Normal_Process()
+	public async Task Normal_Process()
 	{
 		var fakeMessageSender = Substitute.For<IMessageSender>();
 

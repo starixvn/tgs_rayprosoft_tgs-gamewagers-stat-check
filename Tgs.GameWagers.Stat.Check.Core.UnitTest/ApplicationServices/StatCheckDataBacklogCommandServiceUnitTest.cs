@@ -12,7 +12,7 @@ namespace Tgs.GameWagers.Stat.Check.Core.UnitTest.ApplicationServices;
 public class StatCheckDataBacklogCommandServiceUnitTest
 {
 	[Fact]
-	public async void Normal_Process()
+	public async Task Normal_Process()
 	{
 		var fakeGameWagerRepository = Substitute.For<IGameWagerStatCheckDataBacklogRepository>();
 		var fakeMessageSender = Substitute.For<IMessageSender>();

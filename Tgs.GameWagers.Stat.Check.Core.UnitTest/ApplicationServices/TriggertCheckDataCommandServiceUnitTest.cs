@@ -7,7 +7,7 @@ namespace Tgs.GameWagers.Stat.Check.Core.UnitTest.ApplicationServices;
 public class TriggertCheckDataCommandServiceUnitTest
 {
 	[Fact]
-	public async void Normal_Process()
+	public async Task Normal_Process()
 	{
 		var fakeStatisticalTimeUtnsil = Substitute.For<IStatisticalTimeUtnsil>();
 		var fakeRepository = Substitute.For<IGameWagerStatCheckDataBacklogRepository>();

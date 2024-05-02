@@ -9,7 +9,7 @@ namespace Tgs.GameWagers.Stat.Check.Core.UnitTest.ApplicationServices;
 public class StatCheckDataCommandServiceUnitTest
 {
 	[Fact]
-	public async void This_new_game_wager_stat_close_information()
+	public async Task This_new_game_wager_stat_close_information()
 	{
 		var fakeLog = NullLogger<StatCheckDataCommandService>.Instance;
 		var fakeGameBetRepository = Substitute.For<IGameBetRepository>();
@@ -82,7 +82,7 @@ public class StatCheckDataCommandServiceUnitTest
 	}
 
 	[Fact]
-	public async void This_updates_game_wager_stat_close_information()
+	public async Task This_updates_game_wager_stat_close_information()
 	{
 		var fakeLog = NullLogger<StatCheckDataCommandService>.Instance;
 		var fakeGameBetRepository = Substitute.For<IGameBetRepository>();
@@ -170,7 +170,7 @@ public class StatCheckDataCommandServiceUnitTest
 	}
 
 	[Fact]
-	public async void No_changes()
+	public async Task No_changes()
 	{
 		var fakeLog = NullLogger<StatCheckDataCommandService>.Instance;
 		var fakeGameBetRepository = Substitute.For<IGameBetRepository>();

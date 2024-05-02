@@ -14,7 +14,7 @@ namespace Tgs.GameWagers.Stat.Check.Core.UnitTest.ApplicationServices;
 public class GameWagerStatCloseUpdateCommandServiceUnitTest
 {
 	[Fact]
-	public async void Normal_Process()
+	public async Task Normal_Process()
 	{
 		var faceLogger = NullLogger<GameWagerStatCloseUpdateCommandService>.Instance;
 		var fakeBrandRepository = Substitute.For<IBrandRepository>();
