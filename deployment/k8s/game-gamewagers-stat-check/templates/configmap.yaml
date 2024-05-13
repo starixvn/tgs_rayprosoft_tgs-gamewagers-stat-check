@@ -9,9 +9,12 @@ data:
       "Logging": {
         "LogLevel": {
           "Default": "Warning",
-          "Tgs.GameWagers.Stat.Check.Messages": "Warning",
-          "Tgs.GameWagers.Stat.Check.Core.ApplicationServices": "Information"
+          "Tgs.GameWagers.Stat.Check.Messages.TriggertCheckDataMessageHandler": "Information",
+          "Tgs.GameWagers.Stat.Check.Messages.TriggertCheckWorkerMessageHandler": "Information"
         }
+      },
+      "GameWagersStatCheckConnectionStrings": {
+        "GameBetsClientBaseUrl": "http://game-gamebets/"
       }
     }
   otel-collector-config.yaml: |
