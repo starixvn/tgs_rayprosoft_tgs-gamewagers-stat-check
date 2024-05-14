@@ -7,9 +7,9 @@ namespace Tgs.GameWagers.Stat.Check.Messages;
 
 public class TriggertCheckDataMessageHandler(
 	ILogger<TriggertCheckDataMessageHandler> logger,
-	ICommandService<TriggertCheckDataCommand> service) : IMessageHandler<GameBets.Common.Protos.GameBetPublish>
+	ICommandService<TriggertCheckDataCommand> service) : IMessageHandler<GameBets.Worker.Common.Protos.GameBetsWorkerPublish>
 {
-	public ValueTask HandleAsync(string subject, GameBets.Common.Protos.GameBetPublish data, IEnumerable<MessageHeaderValue>? headerValues, CancellationToken cancellationToken = default)
+	public ValueTask HandleAsync(string subject, GameBets.Worker.Common.Protos.GameBetsWorkerPublish data, IEnumerable<MessageHeaderValue>? headerValues, CancellationToken cancellationToken = default)
 	{
 		logger.LogInformation("LogOn:{logOn} Subject:{subject} Mesaage:This message has been received.({data})",
 			DateTime.Now.ToString("o"),
@@ -32,18 +32,8 @@ public class TriggertCheckDataMessageHandler(
 
 		return service.ExecuteAsync(
 			command: new TriggertCheckDataCommand(
-				GameBetId: data.GameBetId.ToGuid(),
-				GameProviderId: data.GameProviderId.ToGuid(),
-				GameId: data.GameId,
-				ResellerId: data.ResellerId.ToGuid(),
-				LicenseeId: data.LicenseeId.ToGuid(),
-				BrandId: data.BrandId.ToGuid(),
 				PlayerCode: data.PlayerCode,
-				CurrencyCode: data.CurrencyCode,
-				WalletId: data.WalletId.ToGuid(),
-				ExternalRoundId: data.ExternalRoundId,
-				ExternalBetId: data.ExternalBetId,
-				ExternalCreatedOn: data.ExternalCreatedOn.ToDateTimeOffset()),
+				ClosedOn: data.ClosedOn.ToDateTimeOffset()),
 			cancellationToken: cancellationToken);
 	}
 }

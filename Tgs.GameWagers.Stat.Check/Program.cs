@@ -83,12 +83,7 @@ builder.Services.AddGameWagersStatCheck(
 	{
 		var config = sp.GetRequiredService<IConfiguration>();
 		_ = dbBuilder.UseNpgsql(config.GetConnectionString("Tgs"));
-	})
-	.AddGameBetsClient(httpClientBuilder => httpClientBuilder.ConfigureHttpClient((sp, http) =>
-	{
-		var config = sp.GetRequiredService<IConfiguration>();
-		http.BaseAddress = config.GetValue<Uri>("GameWagersStatCheckConnectionStrings:GameBetsClientBaseUrl");
-	}));
+	});
 
 builder.Services
 	.AddKeyedSingleton("Nats", (sp, _) => new NatsConnection(NatsOpts.Default with
@@ -99,8 +94,8 @@ builder.Services
 	.AddMessageQueue()
 	.AddNatsMessageQueue(config => config
 	.ConfigureResolveConnection(sp => sp.GetRequiredKeyedService<NatsConnection>("Nats"))
-	.AddHandler<TriggertCheckDataMessageHandler>(Tgs.GameBets.Common.GameBetsNatsConst.GameBetAddPublish, typeof(TriggertCheckDataMessageHandler).FullName!.ToLower())
-	.AddHandler<TriggertCheckWorkerMessageHandler>(Tgs.GameBets.Common.GameBetsNatsConst.GameBetAddPublish, typeof(TriggertCheckWorkerMessageHandler).FullName!.ToLower())
+	.AddHandler<TriggertCheckDataMessageHandler>(Tgs.GameBets.Worker.Common.GameBetsWorkerNatsConst.GameBetsWorkerAddPublish, typeof(TriggertCheckDataMessageHandler).FullName!.ToLower())
+	.AddHandler<TriggertCheckWorkerMessageHandler>(Tgs.GameBets.Worker.Common.GameBetsWorkerNatsConst.GameBetsWorkerAddPublish, typeof(TriggertCheckWorkerMessageHandler).FullName!.ToLower())
 	.AddHandler<StatCheckDataBacklogMessageHandler>(GameWagersStatCheckNatsConst.StatBacklog, typeof(StatCheckDataBacklogMessageHandler).FullName!.ToLower())
 	.AddHandler<StatCheckDataMessageHandler>(GameWagersStatCheckNatsConst.StatCheckData, typeof(StatCheckDataMessageHandler).FullName!.ToLower())
 	.AddHandler<StatCheckWorkerBacklogMessageHandler>(GameWagersStatCheckNatsConst.StatBacklog, typeof(StatCheckWorkerBacklogMessageHandler).FullName!.ToLower())
@@ -111,7 +106,7 @@ builder.Services
 	.AddNatsGlobPatternExchange(GameWagersStatCheckNatsConst.StatCheckData)
 	.AddNatsGlobPatternExchange(GameWagersStatCheckNatsConst.StatCheckHourlyData)
 	.AddNatsGlobPatternExchange(GameWagersStatCheckNatsConst.StatCheckWorker)
-	.AddNatsGlobPatternExchange(Tgs.GameBets.Common.GameBetsNatsConst.GameBetAddPublish)
+	.AddNatsGlobPatternExchange(Tgs.GameBets.Worker.Common.GameBetsWorkerNatsConst.GameBetsWorkerAddPublish)
 	.AddNatsGlobPatternExchange(GameWagersStatHourlyNatsConst.StatHourlyClose)
 	.AddNatsGlobPatternExchange(GameWagersStatWorkerNatsConst.Check);
 
