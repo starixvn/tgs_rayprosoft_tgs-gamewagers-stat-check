@@ -7,6 +7,7 @@ using Tgs.GameWagers.Stat.Check.Entities;
 using Microsoft.Extensions.Logging;
 
 namespace Tgs.GameWagers.Stat.Check.Repositories;
+
 internal class GameWagerStatCloseRepository(
 	TgsContext context) : IGameWagerStatCloseRepository
 {

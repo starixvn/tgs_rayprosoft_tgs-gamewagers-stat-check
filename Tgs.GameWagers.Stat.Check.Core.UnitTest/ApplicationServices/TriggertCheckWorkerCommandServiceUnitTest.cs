@@ -1,9 +1,8 @@
-﻿using Microsoft.Extensions.Logging.Abstractions;
-using NSubstitute;
-
+﻿using NSubstitute;
 using Tgs.GameWagers.Stat.Check.Core.ApplicationServices;
 
 namespace Tgs.GameWagers.Stat.Check.Core.UnitTest.ApplicationServices;
+
 public class TriggertCheckWorkerCommandServiceUnitTest
 {
 	[Fact]
@@ -12,7 +11,7 @@ public class TriggertCheckWorkerCommandServiceUnitTest
 		var fakeRepository = Substitute.For<IGameWagerStatCheckWorkerBacklogRepository>();
 
 		var command = new TriggertCheckWorkerCommand(
-			PlayerCode: "4ucmqplxb029",
+			PlayerCode: "test",
 			ClosedOn: new DateTimeOffset(2024, 02, 27, 16, 34, 38, 00, TimeSpan.FromHours(8)));
 
 		var sut = new TriggertCheckWorkerCommandService(
