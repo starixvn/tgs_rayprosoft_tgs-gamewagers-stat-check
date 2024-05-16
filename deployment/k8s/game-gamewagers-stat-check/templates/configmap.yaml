@@ -9,8 +9,8 @@ data:
       "Logging": {
         "LogLevel": {
           "Default": "Warning",
-          "Tgs.GameWagers.Stat.Check.Messages.TriggertCheckDataMessageHandler": "Information",
-          "Tgs.GameWagers.Stat.Check.Messages.TriggertCheckWorkerMessageHandler": "Information"
+          "Tgs.GameWagers.Stat.Check.Messages.TriggertCheckDataMessageHandler": "Warning",
+          "Tgs.GameWagers.Stat.Check.Messages.TriggertCheckWorkerMessageHandler": "Warning"
         }
       },
       "GameWagersStatCheckConnectionStrings": {
