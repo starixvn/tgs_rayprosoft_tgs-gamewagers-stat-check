@@ -64,7 +64,7 @@ deploy-dev:
         {
           "restart": {
             "enabled": true,
-            "schedule": "5 0 * * 1-4/3"
+            "schedule": "3 0 * * *"
           }          
         }
       EOF
@@ -98,7 +98,7 @@ deploy-staging:
         {
           "restart": {
             "enabled": true,
-            "schedule": "5 0 * * 1-4/3"
+            "schedule": "3 0 * * *"
           }          
         }
       EOF
@@ -132,7 +132,7 @@ deploy-prod:
         {
           "restart": {
             "enabled": true,
-            "schedule": "5 0 * * 1-4/3"
+            "schedule": "3 0 * * *"
           }          
         }
       EOF
