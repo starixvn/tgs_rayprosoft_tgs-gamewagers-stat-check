@@ -12,7 +12,7 @@ public class StatCheckDataCommandServiceUnitTest
 	public async Task This_new_game_wager_stat_close_information()
 	{
 		var fakeLog = NullLogger<StatCheckDataCommandService>.Instance;
-		var fakeGameBetRepository = Substitute.For<IGameBetRepository>();
+		var fakeGameBetRepository = Substitute.For<IGameBetCloseRepository>();
 		var fakeGameWagerStatCloseRepository = Substitute.For<IGameWagerStatCloseRepository>();
 		var fakeAddService = Substitute.For<ICommandService<GameWagerStatCloseAddCommand>>();
 		var fakeUpdateService = Substitute.For<ICommandService<GameWagerStatCloseUpdateCommand>>();
@@ -85,7 +85,7 @@ public class StatCheckDataCommandServiceUnitTest
 	public async Task This_updates_game_wager_stat_close_information()
 	{
 		var fakeLog = NullLogger<StatCheckDataCommandService>.Instance;
-		var fakeGameBetRepository = Substitute.For<IGameBetRepository>();
+		var fakeGameBetRepository = Substitute.For<IGameBetCloseRepository>();
 		var fakeGameWagerStatCloseRepository = Substitute.For<IGameWagerStatCloseRepository>();
 		var fakeAddService = Substitute.For<ICommandService<GameWagerStatCloseAddCommand>>();
 		var fakeUpdateService = Substitute.For<ICommandService<GameWagerStatCloseUpdateCommand>>();
@@ -173,7 +173,7 @@ public class StatCheckDataCommandServiceUnitTest
 	public async Task No_changes()
 	{
 		var fakeLog = NullLogger<StatCheckDataCommandService>.Instance;
-		var fakeGameBetRepository = Substitute.For<IGameBetRepository>();
+		var fakeGameBetRepository = Substitute.For<IGameBetCloseRepository>();
 		var fakeGameWagerStatCloseRepository = Substitute.For<IGameWagerStatCloseRepository>();
 		var fakeAddService = Substitute.For<ICommandService<GameWagerStatCloseAddCommand>>();
 		var fakeUpdateService = Substitute.For<ICommandService<GameWagerStatCloseUpdateCommand>>();

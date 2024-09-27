@@ -7,7 +7,7 @@ namespace Tgs.GameWagers.Stat.Check.Core.ApplicationServices;
 
 internal class StatCheckDataCommandService(
 	ILogger<StatCheckDataCommandService> logger,
-	IGameBetRepository gameBetRepository,
+	IGameBetCloseRepository gameBetRepository,
 	IGameWagerStatCloseRepository gameWagerStatCloseRepository,
 	ICommandService<GameWagerStatCloseAddCommand> addService,
 	ICommandService<GameWagerStatCloseUpdateCommand> updateService) : ICommandService<StatCheckDataCommand>
