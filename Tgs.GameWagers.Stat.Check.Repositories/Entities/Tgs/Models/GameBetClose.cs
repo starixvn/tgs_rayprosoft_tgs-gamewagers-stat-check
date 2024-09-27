@@ -5,32 +5,17 @@ using System.Collections.Generic;
 
 namespace Tgs.GameWagers.Stat.Check.Entities;
 
-public partial class GameBet
+public partial class GameBetClose
 {
     /// <summary>
-    /// 遊戲供應商識別碼
+    /// 遊戲投注主要識別碼
     /// </summary>
-    public Guid GameProviderId { get; set; }
+    public Guid GameBetMajorId { get; set; }
 
     /// <summary>
-    /// 遊戲識別碼
+    /// 結束時間
     /// </summary>
-    public int GameId { get; set; }
-
-    /// <summary>
-    /// 錢包識別碼
-    /// </summary>
-    public Guid WalletId { get; set; }
-
-    /// <summary>
-    /// 三方投注單別碼
-    /// </summary>
-    public string ExternalBetId { get; set; } = null!;
-
-    /// <summary>
-    /// 三方下注/創建時間
-    /// </summary>
-    public DateTime ExternalCreatedOn { get; set; }
+    public DateTime ClosedOn { get; set; }
 
     /// <summary>
     /// 識別碼
@@ -38,9 +23,19 @@ public partial class GameBet
     public Guid Id { get; set; }
 
     /// <summary>
+    /// 遊戲供應商識別碼
+    /// </summary>
+    public Guid GameProviderId { get; set; }
+
+    /// <summary>
     /// 遊戲供應商設定識別碼
     /// </summary>
     public Guid GameProviderConfigurationId { get; set; }
+
+    /// <summary>
+    /// 遊戲識別碼
+    /// </summary>
+    public int GameId { get; set; }
 
     /// <summary>
     /// 公司識別碼
@@ -68,9 +63,24 @@ public partial class GameBet
     public string CurrencyCode { get; set; } = null!;
 
     /// <summary>
+    /// 錢包識別碼
+    /// </summary>
+    public Guid WalletId { get; set; }
+
+    /// <summary>
     /// 三方局/回合識別碼
     /// </summary>
     public string ExternalRoundId { get; set; } = null!;
+
+    /// <summary>
+    /// 三方投注單別碼
+    /// </summary>
+    public string ExternalBetId { get; set; } = null!;
+
+    /// <summary>
+    /// 三方下注/創建時間
+    /// </summary>
+    public DateTime ExternalCreatedOn { get; set; }
 
     /// <summary>
     /// 三方結算/結束時間
@@ -143,19 +153,24 @@ public partial class GameBet
     public decimal Settle { get; set; }
 
     /// <summary>
+    /// 玩家損益/淨利
+    /// </summary>
+    public decimal WinLoss { get; set; }
+
+    /// <summary>
+    /// 流水(依照遊戲商提供流水,如遊戲商未提供預設有效下注)
+    /// </summary>
+    public decimal Turnover { get; set; }
+
+    /// <summary>
     /// 傭金
     /// </summary>
     public decimal Commission { get; set; }
 
     /// <summary>
-    /// 有效投注
+    /// 貢獻/彩金貢獻
     /// </summary>
-    public decimal Turnover { get; set; }
-
-    /// <summary>
-    /// 玩家損益/淨利
-    /// </summary>
-    public decimal WinLoss { get; set; }
+    public decimal Contribute { get; set; }
 
     /// <summary>
     /// 彩金
@@ -166,11 +181,6 @@ public partial class GameBet
     /// 創建時間
     /// </summary>
     public DateTime CreatedOn { get; set; }
-
-    /// <summary>
-    /// 結束時間
-    /// </summary>
-    public DateTime ClosedOn { get; set; }
 
     /// <summary>
     /// 修改時間
@@ -191,4 +201,9 @@ public partial class GameBet
     /// 附加數據
     /// </summary>
     public string AdditionalData { get; set; } = null!;
+
+    /// <summary>
+    /// 擴充數據
+    /// </summary>
+    public string ExtendedData { get; set; } = null!;
 }

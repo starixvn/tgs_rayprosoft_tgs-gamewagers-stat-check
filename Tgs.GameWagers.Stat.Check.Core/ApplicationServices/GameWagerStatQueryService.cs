@@ -6,7 +6,7 @@ namespace Tgs.GameWagers.Stat.Check.Core.ApplicationServices;
 
 internal class GameWagerStatQueryService(
 	IStatisticalTimeUtnsil statisticalTimeUtnsil,
-	IGameBetRepository repository) : IQueryService<GameWagerStatQuery, GameWagerStatResult>
+	IGameBetCloseRepository repository) : IQueryService<GameWagerStatQuery, GameWagerStatResult>
 {
 	public async IAsyncEnumerable<GameWagerStatResult> QueryAsync(GameWagerStatQuery query, [EnumeratorCancellation] CancellationToken cancellationToken = default)
 	{

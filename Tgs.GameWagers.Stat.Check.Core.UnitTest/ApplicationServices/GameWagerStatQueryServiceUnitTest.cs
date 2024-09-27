@@ -11,7 +11,7 @@ public class GameWagerStatQueryServiceUnitTest
 	public async Task Normal_Process()
 	{
 		var fakeStatisticalTimeUtnsil = Substitute.For<IStatisticalTimeUtnsil>();
-		var fakeGameBetRepository = Substitute.For<IGameBetRepository>();
+		var fakeGameBetRepository = Substitute.For<IGameBetCloseRepository>();
 
 		var query = new GameWagerStatQuery(
 			PlayerCode: "4ucmqplxb029",
