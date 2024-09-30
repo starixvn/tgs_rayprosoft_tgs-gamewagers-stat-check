@@ -22,8 +22,7 @@ internal class BrandRepository(
 			LicenseeStatus = licensee.Status,
 			BrandId = brand.Id,
 			BrandCode = brand.Code,
-			BrandStatus = brand.Status,
-			TimeSpanMinutes = brand.TimeSpanMinutes.GetValueOrDefault(480)
+			BrandStatus = brand.Status
 		})
 		.Join(
 		context.Resellers,
@@ -39,8 +38,7 @@ internal class BrandRepository(
 			conform.LicenseeStatus,
 			conform.BrandId,
 			conform.BrandCode,
-			conform.BrandStatus,
-			conform.TimeSpanMinutes
+			conform.BrandStatus
 		})
 		.Where(predicate: conform => conform.BrandCode == code)
 		.Select(selector: conform => new BrandInfo(
@@ -49,8 +47,7 @@ internal class BrandRepository(
 			conform.LicenseeId,
 			conform.LicenseeCode,
 			conform.BrandId,
-			conform.BrandCode,
-			conform.TimeSpanMinutes
+			conform.BrandCode
 			))
 		.AsAsyncEnumerable()
 		.FirstOrDefaultAsync(
@@ -72,8 +69,7 @@ internal class BrandRepository(
 			LicenseeStatus = licensee.Status,
 			BrandId = brand.Id,
 			BrandCode = brand.Code,
-			BrandStatus = brand.Status,
-			TimeSpanMinutes = brand.TimeSpanMinutes.GetValueOrDefault(480)
+			BrandStatus = brand.Status
 		})
 		.Join(
 		context.Resellers,
@@ -89,8 +85,7 @@ internal class BrandRepository(
 			conform.LicenseeStatus,
 			conform.BrandId,
 			conform.BrandCode,
-			conform.BrandStatus,
-			conform.TimeSpanMinutes
+			conform.BrandStatus
 		})
 		.Where(predicate: conform => conform.BrandId == id)
 		.Select(selector: conform => new BrandInfo(
@@ -99,8 +94,7 @@ internal class BrandRepository(
 			conform.LicenseeId,
 			conform.LicenseeCode,
 			conform.BrandId,
-			conform.BrandCode,
-			conform.TimeSpanMinutes
+			conform.BrandCode
 			))
 		.AsAsyncEnumerable()
 		.FirstOrDefaultAsync(

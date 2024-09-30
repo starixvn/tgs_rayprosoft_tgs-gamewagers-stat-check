@@ -43,8 +43,7 @@ public class GameWagerStatCloseUpdateCommandServiceUnitTest
 			LicenseeId: command.LicenseeId,
 			LicenseeCode: "TGS",
 			BrandId: command.BrandId,
-			BrandCode: "GPI",
-			TimeSpanMinutes: 480);
+			BrandCode: "GPI");
 		_ = fakeBrandRepository.GetAsync(
 			id: Arg.Is(command.BrandId),
 			cancellationToken: Arg.Any<CancellationToken>())
